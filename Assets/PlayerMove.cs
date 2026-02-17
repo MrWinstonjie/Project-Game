@@ -7,32 +7,72 @@ public class cha : MonoBehaviour
 {
     public float moveSpeed;
     public float jumpHeight;
-
     private Rigidbody2D rb;
     private bool facingRight = true;
     private Animator anim;
     public Transform groundCheck;
-
     public bool grounded = false;
     private int maxJumps = 2;
     private int jumpCount = 0;
+    BoxCollider2D box;
+    Vector2 normalSize;
+    Vector2 normalOffset;
+    Vector2 rollSize = new Vector2(0.7f, 0.7f);
+    Vector2 rollOffset = new Vector2(-0.2f, 0.4f);
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        box = GetComponent<BoxCollider2D>();
+
+        normalSize = box.size;
+        normalOffset = box.offset;
 
     }
 
     void Update()
     {
-        float move = 0f;
-        
+        HandleMove();
 
-        // // Jump
+        HandleJump();
+
+        HandleRoll();
+
+        HandleIdle();
+
+       
+  
+    }
+
+    void HandleIdle()
+    {
+
+       
         
-         if(rb.linearVelocity.y < 0  && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
+        // return to idle animation
+        if (grounded)
+        {
+            anim.SetBool("Grounded",true);
+            
+
+        }
+        else
+        {
+            anim.SetFloat("AirSpeedY", rb.linearVelocity.y);
+            anim.SetBool("Grounded",false);
+            
+        }
+
+    }
+
+
+    void HandleJump()
+    {
+        // Jump and double jump
+        if(rb.linearVelocity.y < 0  && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             jumpCount+=2;
@@ -44,14 +84,6 @@ public class cha : MonoBehaviour
             jumpCount++;
             
         }
-        
-        // double jump
-        // if(!grounded && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
-        // {
-        //     rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
-        //     jumpCount+=2;
-        // }
-
 
         // jumping anim
         if(rb.linearVelocity.y > 5){
@@ -59,10 +91,15 @@ public class cha : MonoBehaviour
             print("jumping");
         }
 
+    }
 
+
+    void HandleMove()
+    {
+        float move = 0f;
 
         // Horizontal movement
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) )
         {
             move = moveSpeed;
             anim.SetInteger("AnimState", 1);
@@ -70,7 +107,7 @@ public class cha : MonoBehaviour
             if (!facingRight)
                 Flip();
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) )
         {
             move = -moveSpeed;
             anim.SetInteger("AnimState", 1);
@@ -82,27 +119,34 @@ public class cha : MonoBehaviour
             anim.SetInteger("AnimState", 0);
         }
 
-            
-            
+        // for moving the character
         rb.linearVelocity = new Vector2(move, rb.linearVelocity.y);
         
-
-
-        if (grounded)
-        {
-            anim.SetBool("Grounded",true);
-        }
-        else
-        {
-            anim.SetFloat("AirSpeedY", rb.linearVelocity.y);
-            anim.SetBool("Grounded",false);
-            
-        }
-
-       
-
-  
     }
+
+
+    void HandleRoll()
+    {
+        
+        // Roll
+        if (Input.GetKeyDown(KeyCode.LeftShift) && anim.GetCurrentAnimatorStateInfo(0).IsName("Roll") == false && grounded)
+        {
+            box.size = rollSize;
+            box.offset = rollOffset;
+            anim.SetBool("Roll", true);
+
+        }
+        
+    }
+
+    public void EndRoll()
+    {
+        print("endroll");
+        anim.SetBool("Roll", false);
+        box.size = normalSize;
+        box.offset = normalOffset;
+    }
+
 
 
 // if touching the floor
@@ -112,8 +156,8 @@ public class cha : MonoBehaviour
         grounded = true;
         jumpCount = 0;
     }
-// if in the air
 
+// if in the air
     void OnCollisionExit2D(Collision2D collision)
     {
         print("is in the air");
