@@ -337,6 +337,7 @@ MonoBehaviour:
   jumpHeight: 15
   groundCheck: {fileID: 780278636}
   grounded: 0
+  animation: {fileID: 0}
 --- !u!95 &227829913
 Animator:
   serializedVersion: 7

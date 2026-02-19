@@ -22,7 +22,11 @@ public class cha : MonoBehaviour
     Vector2 rollOffset = new Vector2(-0.2f, 0.4f);
     bool isDashing = false;
     bool isRolling = false;
-
+    int comboStep = 0;
+    float comboResetTime = 0.6f;
+    Coroutine comboResetCoroutine;
+    bool isAttacking = false;
+    float AttackSpeed = 1f;
 
 
 
@@ -34,6 +38,8 @@ public class cha : MonoBehaviour
 
         normalSize = box.size;
         normalOffset = box.offset;
+        
+
 
     }
 
@@ -49,8 +55,6 @@ public class cha : MonoBehaviour
             return;
         }
 
-        Attack();
-
         HandleMove();
 
         HandleJump();
@@ -61,9 +65,12 @@ public class cha : MonoBehaviour
 
         HandleIdle();
 
+        Attack();
+
        
   
     }
+
 
     void HandleIdle()
     {    
@@ -159,7 +166,7 @@ public class cha : MonoBehaviour
             box.offset = rollOffset;
             
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.7f);
 
             isRolling = false;
         }
@@ -195,24 +202,36 @@ public class cha : MonoBehaviour
  
     }
 
-    public void Attack()
+    IEnumerator ResetCombo()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            anim.SetBool("Attack1",true);
-        }
+        yield return new WaitForSeconds(comboResetTime);
+        comboStep = 0;
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            anim.SetBool("Attack2",true);
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            anim.SetBool("Attack3",true);
-        }
+    void Attack()
+    {
+       
 
-        
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
+        {
+            isAttacking = true;
+
+            comboStep++;
+            if (comboStep > 3)
+            {
+                comboStep = 1;
+            }
+                
+
+            anim.Play("Attack" + comboStep);
+        }
+    }
+
+
+    public void AttackDelay()
+    {
+        isAttacking = false;
     }
 
 
