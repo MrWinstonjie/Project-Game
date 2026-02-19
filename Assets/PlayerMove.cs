@@ -1,3 +1,4 @@
+using System.Collections;
 using NUnit.Framework;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -19,6 +20,9 @@ public class cha : MonoBehaviour
     Vector2 normalOffset;
     Vector2 rollSize = new Vector2(0.7f, 0.7f);
     Vector2 rollOffset = new Vector2(-0.2f, 0.4f);
+    bool isDashing = false;
+    bool isRolling = false;
+
 
 
 
@@ -35,11 +39,24 @@ public class cha : MonoBehaviour
 
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
+        if (isRolling)
+        {
+            return;
+        }
+
+
         HandleMove();
 
         HandleJump();
 
-        HandleRoll();
+        StartCoroutine(HandleDash());
+
+        StartCoroutine(HandleRoll());
 
         HandleIdle();
 
@@ -48,10 +65,7 @@ public class cha : MonoBehaviour
     }
 
     void HandleIdle()
-    {
-
-       
-        
+    {    
         // return to idle animation
         if (grounded)
         {
@@ -105,14 +119,20 @@ public class cha : MonoBehaviour
             anim.SetInteger("AnimState", 1);
 
             if (!facingRight)
+            {
                 Flip();
+            }
+                
         }
         else if (Input.GetKey(KeyCode.A) )
         {
             move = -moveSpeed;
             anim.SetInteger("AnimState", 1);
             if (facingRight)
+            {
                 Flip();
+            }
+                
         }
         else
         {
@@ -125,19 +145,56 @@ public class cha : MonoBehaviour
     }
 
 
-    void HandleRoll()
+    IEnumerator HandleRoll()
     {
         
         // Roll
-        if (Input.GetKeyDown(KeyCode.LeftShift) && anim.GetCurrentAnimatorStateInfo(0).IsName("Roll") == false && grounded)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && anim.GetCurrentAnimatorStateInfo(0).IsName("Roll") == false && grounded && !isDashing)
         {
+            anim.SetBool("Roll", true);
+            isRolling = true;
+
             box.size = rollSize;
             box.offset = rollOffset;
-            anim.SetBool("Roll", true);
+            
 
+            yield return new WaitForSeconds(0.4f);
+
+            isRolling = false;
         }
         
     }
+
+
+    // Dash
+    IEnumerator HandleDash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") == false && grounded && !isRolling)
+        {
+            anim.SetBool("Dash", true);
+
+            isDashing = true;
+            if (facingRight)
+            {
+                rb.linearVelocity = new Vector2(20, 0);
+                
+            }else if (!facingRight)
+            {
+                rb.linearVelocity = new Vector2(-20, 0);
+                
+            }
+
+            yield return new WaitForSeconds(0.2f);
+
+            isDashing = false;
+
+        }
+
+
+ 
+    }
+
+
 
     public void EndRoll()
     {
@@ -145,6 +202,12 @@ public class cha : MonoBehaviour
         anim.SetBool("Roll", false);
         box.size = normalSize;
         box.offset = normalOffset;
+    }
+
+    public void EndDash()
+    {
+        print("end Dash");
+        anim.SetBool("Dash", false);
     }
 
 
