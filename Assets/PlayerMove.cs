@@ -49,6 +49,7 @@ public class cha : MonoBehaviour
             return;
         }
 
+        Attack();
 
         HandleMove();
 
@@ -194,6 +195,25 @@ public class cha : MonoBehaviour
  
     }
 
+    public void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            anim.SetBool("Attack1",true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            anim.SetBool("Attack2",true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            anim.SetBool("Attack3",true);
+        }
+
+        
+    }
 
 
     public void EndRoll()
