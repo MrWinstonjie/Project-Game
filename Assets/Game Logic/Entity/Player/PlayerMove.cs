@@ -4,7 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
-public class cha : MonoBehaviour
+public class cha : Entity
 {
     public float moveSpeed;
     public float jumpHeight;
@@ -30,7 +30,7 @@ public class cha : MonoBehaviour
 
 
 
-    void Start()
+    protected override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -228,6 +228,11 @@ public class cha : MonoBehaviour
         }
     }
 
+    public void Hurt()
+    {
+        anim.Play("Hurt");
+    }
+
 
     public void AttackDelay()
     {
@@ -266,7 +271,13 @@ public class cha : MonoBehaviour
         grounded = false;
         
     }
-    
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //// Sementara gini
+        Hurt();
+        print("Collided with entity");
+    }
 
     void Flip()
     {
