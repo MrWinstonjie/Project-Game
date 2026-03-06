@@ -1,62 +1,44 @@
 using UnityEngine;
+using Pathfinding;
 
 public class Epstein : Entity
 {
+    private Transform player;
+    protected float activationRange = 5f;
+    private AIDestinationSetter pathScript;
+    private bool isChasing = false; 
 
-    public float speed = 2f;
-    public Transform pointA;
-    public Transform pointB;
-    private Transform target;
-    private Rigidbody2D rb;
-    
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        print("Epstein has Spawned");
-        target = pointB;
-        
+        pathScript = GetComponent<AIDestinationSetter>();
+        pathScript.enabled = false; 
+
+        GameObject p = GameObject.Find("Player");
+        if (p != null)
+            player = p.transform;
+        else
+            Debug.LogError("No Player object found in the scene!");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //  Move();
+        if (player == null) return;
+
+        // use normal distance, easy to reason about
+        float distance = Vector3.Distance(player.position, transform.position);
+
+        if (!isChasing && distance <= activationRange)
+        {
+            pathScript.enabled = true;
+            isChasing = true;
+        }
+        else if (isChasing && distance > activationRange)
+        {
+            pathScript.enabled = false;
+            isChasing = false;
+        }
+
+        // optional debug
+        Debug.DrawLine(transform.position, player.position, Color.red);
     }
-
-    // void Move()
-    // {
-    //     float move = 0f;
-
-    //     int r = Random.Range(0, 2);
-
-    //         if (r == 0)
-    //         {
-    //             target = pointA;
-    //         }
-    //         else
-    //         {
-    //             target = pointB;
-    //         }
-
-        
-    //     if (target == pointB)
-    //     {
-    //         move = speed;
-
-            
-    //     }
-    //     else if(target == pointA)
-    //     {
-    //         move = -speed;
-
-            
-    //     }
-
-    //     // apply movement
-    //     rb.linearVelocity = new Vector2(move, rb.linearVelocity.y);
-
-    // }
-
-
-
 }
