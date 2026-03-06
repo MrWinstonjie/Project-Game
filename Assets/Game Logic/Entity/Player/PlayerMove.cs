@@ -272,6 +272,8 @@ public class cha : Entity
         
     }
 
+
+    // if touching enemies
     void OnTriggerEnter2D(Collider2D collision)
     {
         //// Sementara gini
