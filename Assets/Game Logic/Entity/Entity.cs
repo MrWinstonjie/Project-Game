@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -5,6 +6,7 @@ public class Entity : MonoBehaviour
     public int maxHealth = 100;
     protected int currentHealth = 100;
     protected bool isDead = false;
+    protected String Type = "none";
 
         
     protected virtual void Start()

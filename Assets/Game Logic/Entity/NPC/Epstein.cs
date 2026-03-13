@@ -1,5 +1,6 @@
 using UnityEngine;
 using Pathfinding;
+using System;
 
 public class Epstein : Entity
 {
@@ -8,17 +9,27 @@ public class Epstein : Entity
     private AIDestinationSetter pathScript;
     private bool isChasing = false; 
 
+    private String Type = "Ghost";
+
+
+
+
     void Start()
     {
         pathScript = GetComponent<AIDestinationSetter>();
         pathScript.enabled = false; 
 
         GameObject p = GameObject.Find("Player");
-        if (p != null)
+        if (p != null){
             player = p.transform;
+            print("Player found");
+        }
         else
             Debug.LogError("No Player object found in the scene!");
+
+        
     }
+
 
     void Update()
     {
@@ -39,6 +50,6 @@ public class Epstein : Entity
         }
 
         // optional debug
-        Debug.DrawLine(transform.position, player.position, Color.red);
+        // Debug.DrawLine(transform.position, player.position, Color.red);
     }
 }
