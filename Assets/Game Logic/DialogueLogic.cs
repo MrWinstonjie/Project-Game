@@ -39,7 +39,7 @@ public class DialogueLogic : MonoBehaviour
 
     public void StartDialogue() 
     {
-        gameObject.SetActive(true); // CRITICAL: Turn the UI on BEFORE starting coroutines
+        gameObject.SetActive(true);
         index = 0;
         textComponent.text = string.Empty;
         StartCoroutine(TypeLine());
@@ -47,14 +47,6 @@ public class DialogueLogic : MonoBehaviour
 
     }
 
-    // public void StartDialogue(string[] newLines) 
-    // {
-    //     gameObject.SetActive(true); // CRITICAL: Turn the UI on BEFORE starting coroutines
-    //     lines = newLines; // Take the text from the trigger zone
-    //     index = 0;
-    //     textComponent.text = string.Empty;
-    //     StartCoroutine(TypeLine());
-    // }
 
 
     IEnumerator TypeLine()
@@ -79,7 +71,7 @@ public class DialogueLogic : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false); // Hide the UI when dialogue is over
+            gameObject.SetActive(false); 
         }
     }
 }
