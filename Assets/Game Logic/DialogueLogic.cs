@@ -6,42 +6,45 @@ public class DialogueLogic : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public float textSpeed;
-    
     public string[] lines; 
     private int index;
 
     void Start()
     {
         textComponent.text = string.Empty;
-   
-        StartDialogue();
+        gameObject.SetActive(false);
+        
+        // StartDialogue();
     }
 
     void Update()
     {   
-        if (Input.GetMouseButtonDown(0))
-        {
+        // if (Input.GetMouseButtonDown(0))
+        // {
             
-            if (textComponent.text == lines[index]) 
-            {
-                NextLine();
-            }
-            else 
-            {
+            // if (textComponent.text == lines[index]) 
+            // {
+            //     StartCoroutine(NextLine());
+            // }
+            // else 
+            // {
                 
-                StopAllCoroutines();
-                textComponent.text = lines[index];
-            }
-        }
+            //     StopAllCoroutines();
+            //     textComponent.text = lines[index];
+            // }
+
+        // }
+        
     }
 
     public void StartDialogue() 
     {
         gameObject.SetActive(true); // CRITICAL: Turn the UI on BEFORE starting coroutines
- 
         index = 0;
         textComponent.text = string.Empty;
         StartCoroutine(TypeLine());
+
+
     }
 
     // public void StartDialogue(string[] newLines) 
@@ -61,10 +64,13 @@ public class DialogueLogic : MonoBehaviour
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+
+        StartCoroutine(NextLine());
     }
 
-    void NextLine()
+    IEnumerator NextLine()
     {
+        yield return new WaitForSeconds(1);
         if(index < lines.Length - 1)
         {
             index++;

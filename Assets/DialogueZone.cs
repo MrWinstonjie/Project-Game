@@ -7,11 +7,17 @@ public class DialogueZone : MonoBehaviour
     [Header("Type what this specific zone says here!")]
     public string[] myLines;
 
+    private bool triggered;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("The player collided with the square!");
-        dialogueLogic.StartDialogue();  
-  
+
+        if (!triggered)
+        {
+            print("The player collided with the square!");
+            dialogueLogic.StartDialogue();
+            gameObject.SetActive(false);
+        }
         
     }
 }
