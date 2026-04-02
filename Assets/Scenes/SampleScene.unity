@@ -1564,6 +1564,7 @@ GameObject:
   - component: {fileID: 227829912}
   - component: {fileID: 227829913}
   - component: {fileID: 227829914}
+  - component: {fileID: 227829915}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1737,6 +1738,7 @@ MonoBehaviour:
   jumpHeight: 15
   groundCheck: {fileID: 780278636}
   grounded: 0
+  dialogueLogic: {fileID: 1338594247}
 --- !u!95 &227829913
 Animator:
   serializedVersion: 7
@@ -1787,6 +1789,52 @@ MonoBehaviour:
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &227829915
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227829905}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 767
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.859375}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 3.125, y: 1.71875}
+    newSize: {x: 3.125, y: 1.71875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.125, y: 1.71875}
+  m_EdgeRadius: 0
 --- !u!1 &270546504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,6 +2373,7 @@ GameObject:
   - component: {fileID: 982797334}
   - component: {fileID: 982797337}
   - component: {fileID: 982797338}
+  - component: {fileID: 982797339}
   m_Layer: 8
   m_Name: Ghost_enemy_test
   m_TagString: Untagged
@@ -2381,7 +2430,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8957324059118975939, guid: 48901a018ffa53d4c996dad1b7f71508, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 712de9ea15c43804e8362ea1b687fadc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2400,8 +2449,8 @@ Transform:
   m_GameObject: {fileID: 982797329}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -458.63, y: 188.58, z: 0}
-  m_LocalScale: {x: 0.85965294, y: 0.5911, z: 1}
+  m_LocalPosition: {x: -458.6822, y: 188.7105, z: 0}
+  m_LocalScale: {x: 0.8336276, y: 0.6562957, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2457,7 +2506,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.83, y: 2.75}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 1.83, y: 2.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2587,7 +2636,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.83, y: 2.75}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 1.83, y: 2.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2622,6 +2671,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &982797339
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982797329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0e7a7ac2381752749acb7f1db56729fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1076624757
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,6 +4254,7 @@ MonoBehaviour:
   - My name is Johnjones
   - September 30th, 1998. It's a day I'll never forget. The cop inside me died that
     day. And that night
+  talking: 0
 --- !u!1 &1347228650
 GameObject:
   m_ObjectHideFlags: 0

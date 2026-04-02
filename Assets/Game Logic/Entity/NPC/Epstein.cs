@@ -8,16 +8,18 @@ public class Epstein : Entity
     protected float activationRange = 5f;
     private AIDestinationSetter pathScript;
     private bool isChasing = false; 
-
+    private Rigidbody2D rb;
     private String Type = "Ghost";
-
-
-
+    private bool facingRight = true;
+    private Animator anim;
+    private bool isAttacking1;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         pathScript = GetComponent<AIDestinationSetter>();
         pathScript.enabled = false; 
+        anim = GetComponent<Animator>();
 
         GameObject p = GameObject.Find("Player");
         if (p != null){
@@ -29,13 +31,13 @@ public class Epstein : Entity
 
         
     }
+    
 
 
     void Update()
     {
         if (player == null) return;
 
-        // use normal distance, easy to reason about
         float distance = Vector3.Distance(player.position, transform.position);
 
         if (!isChasing && distance <= activationRange)
@@ -49,7 +51,56 @@ public class Epstein : Entity
             isChasing = false;
         }
 
-        // optional debug
-        // Debug.DrawLine(transform.position, player.position, Color.red);
+        if (player.position.x > transform.position.x && !facingRight)
+        {
+            Flip();
+        }
+        else if (player.position.x < transform.position.x && facingRight)
+        {
+            Flip();
+        }
+
+      
+
+
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+       
+        Attack();
+        print("NPC NIGGA IS ATTACKING PLAYER");
+        
+    }
+
+
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    void Attack()
+    {
+        isAttacking1 = true;
+        anim.SetBool("isAttacking1", true);
+        anim.Play("Attack1");
+ 
+        
+    }
+
+    void AttackDelay()
+    {
+        isAttacking1 = false;
+        
+    }
+
+    public void Idle()
+    {
+        isAttacking1 = false;
     }
 }

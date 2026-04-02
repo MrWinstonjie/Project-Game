@@ -7,35 +7,39 @@ public class DialogueLogic : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public float textSpeed;
     public string[] lines; 
+    public bool talking;
     private int index;
 
     void Start()
     {
         textComponent.text = string.Empty;
         gameObject.SetActive(false);
+        talking = false;
         
         // StartDialogue();
     }
 
     void Update()
     {   
-        // if (Input.GetMouseButtonDown(0))
-        // {
+        if (Input.GetMouseButtonDown(0))
+        {
             
-            // if (textComponent.text == lines[index]) 
-            // {
-            //     StartCoroutine(NextLine());
-            // }
-            // else 
-            // {
+            if (textComponent.text == lines[index]) 
+            {
+                StartCoroutine(NextLine());
+            }
+            else 
+            {
                 
-            //     StopAllCoroutines();
-            //     textComponent.text = lines[index];
-            // }
+                StopAllCoroutines();
+                textComponent.text = lines[index];
+                StartCoroutine(NextLine());
+            }
 
-        // }
+        }
         
     }
+
 
     public void StartDialogue() 
     {
@@ -43,7 +47,7 @@ public class DialogueLogic : MonoBehaviour
         index = 0;
         textComponent.text = string.Empty;
         StartCoroutine(TypeLine());
-
+        talking = true;
 
     }
 
@@ -62,6 +66,7 @@ public class DialogueLogic : MonoBehaviour
 
     IEnumerator NextLine()
     {
+
         yield return new WaitForSeconds(1);
         if(index < lines.Length - 1)
         {
@@ -71,6 +76,7 @@ public class DialogueLogic : MonoBehaviour
         }
         else
         {
+            talking = false;
             gameObject.SetActive(false); 
         }
     }

@@ -27,6 +27,7 @@ public class cha : Entity
     Coroutine comboResetCoroutine;
     bool isAttacking = false;
     float AttackSpeed = 1f;
+    public DialogueLogic dialogueLogic;
 
 
 
@@ -35,6 +36,7 @@ public class cha : Entity
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         box = GetComponent<BoxCollider2D>();
+        
 
         normalSize = box.size;
         normalOffset = box.offset;
@@ -184,7 +186,7 @@ public class cha : Entity
             isDashing = true;
             if (facingRight)
             {
-                rb.linearVelocity = new Vector2(20, 0);
+                rb.linearVelocity = new Vector2(20, 0); 
                 
             }else if (!facingRight)
             {
@@ -213,7 +215,7 @@ public class cha : Entity
     {
        
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && !dialogueLogic.talking)
         {
             isAttacking = true;
 
