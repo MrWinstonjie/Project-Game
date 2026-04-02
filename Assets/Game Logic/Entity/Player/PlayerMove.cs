@@ -152,6 +152,9 @@ public class cha : Entity
         // for moving the character
         rb.linearVelocity = new Vector2(move, rb.linearVelocity.y);
         
+        
+        
+        
     }
 
 

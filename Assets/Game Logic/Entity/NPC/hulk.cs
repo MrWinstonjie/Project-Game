@@ -14,15 +14,17 @@ public class hulk : MonoBehaviour
     private bool grounded = true;
     float turnTimer;
     float nextTurnTime;
+    private Animator anim;
+    private bool facingRight = true;
     
 
     void Start()
     {
         currentDirection = startDirection;
         rb = GetComponent<Rigidbody2D>();
-
+        anim = GetComponent<Animator>();
         halfWidth = GetComponent<BoxCollider2D>().bounds.extents.x;
-        
+        Flip();
         nextTurnTime = Random.Range(2f, 5f);
 
     }
@@ -48,7 +50,7 @@ public class hulk : MonoBehaviour
         if (turnTimer >= nextTurnTime)
         {
             currentDirection *= -1;
-
+            Flip();
             turnTimer = 0f;
             nextTurnTime = Random.Range(2f, 5f);
         }
@@ -104,23 +106,30 @@ public class hulk : MonoBehaviour
 
     private void movPatrol()
     {
+
+        anim.Play("Walk");
+        
+        
         Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.2f;
         Vector2 middleOrigin = (Vector2)transform.position;
         Vector2 topOrigin = (Vector2)transform.position + Vector2.up * 1.3f;
 
         if (grounded)
         {
+            
 
             if ((Physics2D.Raycast(bottomOrigin, Vector2.right, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle")) 
             || Physics2D.Raycast(middleOrigin, Vector2.right, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle"))) && currentDirection > 0)
             {
+                Flip();
                 grounded = true;
-                currentDirection = -1;
+                currentDirection = -1; 
                 print("FUUUUCK");
             }
             else if ((Physics2D.Raycast(bottomOrigin, Vector2.left, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle")) 
             || Physics2D.Raycast(middleOrigin, Vector2.left, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle"))) && currentDirection < 0)
             {
+                Flip();
                 grounded = true;
                 currentDirection = 1;
                 print("SHIIIT");
@@ -138,5 +147,14 @@ public class hulk : MonoBehaviour
 
             
     }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
 
 }

@@ -1567,7 +1567,7 @@ GameObject:
   - component: {fileID: 227829915}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4152,7 +4152,7 @@ Transform:
   m_GameObject: {fileID: 1310166508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2148, y: -554, z: -10}
+  m_LocalPosition: {x: 1976, y: -551, z: -10}
   m_LocalScale: {x: 2.55, y: 1.0085, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4700,7 +4700,7 @@ Transform:
   m_GameObject: {fileID: 1575475378}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3203.0386, y: -103.2258, z: 0}
+  m_LocalPosition: {x: 2865, y: -126, z: 0}
   m_LocalScale: {x: 27.037437, y: 23.274858, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

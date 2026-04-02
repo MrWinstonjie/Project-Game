@@ -36,6 +36,7 @@ public class Epstein : Entity
 
     void Update()
     {
+        
         if (player == null) return;
 
         float distance = Vector3.Distance(player.position, transform.position);
@@ -68,8 +69,11 @@ public class Epstein : Entity
     void OnTriggerEnter2D(Collider2D collision)
     {
        
-        Attack();
-        print("NPC NIGGA IS ATTACKING PLAYER");
+        if (collision.CompareTag("Player"))
+        {
+            Attack();
+            print("NPC Attacked The Player");
+        }
         
     }
 
