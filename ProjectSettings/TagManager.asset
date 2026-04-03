@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Background
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Obstacle
   - Entity
   - Zones
-  - 
+  - Background
   - 
   - 
   - 
@@ -41,5 +42,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Back
+    uniqueID: 524846109
+    locked: 0
+  - name: Middle
+    uniqueID: 1860219045
+    locked: 0
+  - name: Front
+    uniqueID: 530286589
+    locked: 0
   m_RenderingLayers:
   - Default
+  - Layer 1
+  - Layer 2
+  - Layer 3
