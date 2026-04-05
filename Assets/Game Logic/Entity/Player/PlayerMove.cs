@@ -282,7 +282,11 @@ public class cha : Entity
     void OnTriggerEnter2D(Collider2D collision)
     {
         //// Sementara gini
-        Hurt();
+
+        if (collision.CompareTag("Enemies"))
+        {
+            Hurt();
+        }
         print("Collided with entity");
     }
 
