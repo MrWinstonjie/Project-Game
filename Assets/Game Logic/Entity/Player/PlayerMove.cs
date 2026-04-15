@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NUnit.Framework;
 using UnityEditor.Experimental.GraphView;
@@ -233,6 +234,16 @@ public class cha : Entity
         }
     }
 
+    void AttackBox1()
+    {
+        print("test_ATTACKBOX");
+    }
+
+    void RemoveAttackbox()
+    {
+        print("Removed_AttackBox");
+    }
+
     public void Hurt()
     {
         anim.Play("Hurt");
@@ -285,7 +296,7 @@ public class cha : Entity
 
         if (collision.CompareTag("Enemies"))
         {
-            Hurt();
+            // Hurt();
         }
         print("Collided with entity");
     }

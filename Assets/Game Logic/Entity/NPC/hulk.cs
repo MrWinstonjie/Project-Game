@@ -16,6 +16,7 @@ public class hulk : MonoBehaviour
     float nextTurnTime;
     private Animator anim;
     private bool facingRight = true;
+    private bool isHurt = false;
     
 
     void Start()
@@ -36,6 +37,8 @@ public class hulk : MonoBehaviour
         movement.x = speed * currentDirection;
         movement.y = rb.linearVelocity.y;
         rb.linearVelocity = movement;
+
+        if (isHurt) return;
 
         movPatrol(); 
         wander();
@@ -67,15 +70,24 @@ public class hulk : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        print("HULK touch floor");
+        // print("HULK touch floor");
         grounded = true;
 
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        print("HULK in air");
+        // print("HULK in air");
         grounded = false;
+
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+
+        if (other.CompareTag("PlayerAttack")) {
+            Hurt();
+            
+        }
 
     }
 
@@ -146,6 +158,30 @@ public class hulk : MonoBehaviour
         Debug.DrawRay(topOrigin, Vector2.left * (halfWidth + 0.10f), Color.green);
 
             
+    }
+
+    public void Hurt()
+    {
+        // Prevent re-triggering Hurt if we are already hurting
+        if (isHurt) return;
+
+        isHurt = true;
+        print("HULK GOT HIT");
+        
+        // Stop the Hulk's body physically
+        rb.linearVelocity = Vector2.zero; 
+        
+        // Play the animation (Update won't override it now!)
+        anim.Play("Hurt");
+
+        // After a short delay, go back to patrolling
+        // You can adjust '0.5f' to match the length of your Hurt animation
+        Invoke("ResetHurt", 0.5f); 
+    }
+
+    void ResetHurt()
+    {
+        isHurt = false;
     }
 
     void Flip()
