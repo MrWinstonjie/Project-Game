@@ -236,12 +236,12 @@ public class cha : Entity
 
     void AttackBox1()
     {
-        print("test_ATTACKBOX");
+        // print("test_ATTACKBOX");
     }
 
     void RemoveAttackbox()
     {
-        print("Removed_AttackBox");
+        // print("Removed_AttackBox");
     }
 
     public void Hurt()
@@ -299,6 +299,9 @@ public class cha : Entity
             // Hurt();
         }
         print("Collided with entity");
+
+
+        
     }
 
     void Flip()

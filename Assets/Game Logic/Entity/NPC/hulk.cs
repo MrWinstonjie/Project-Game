@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class hulk : MonoBehaviour
+public class hulk : Entity
 {
 
     private Rigidbody2D rb;
@@ -14,9 +15,12 @@ public class hulk : MonoBehaviour
     private bool grounded = true;
     float turnTimer;
     float nextTurnTime;
+    int nextMove;
     private Animator anim;
     private bool facingRight = true;
     private bool isHurt = false;
+    private bool isAttacking1;
+    private bool isIdling = false;
     
 
     void Start()
@@ -27,7 +31,14 @@ public class hulk : MonoBehaviour
         halfWidth = GetComponent<BoxCollider2D>().bounds.extents.x;
         Flip();
         nextTurnTime = Random.Range(2f, 5f);
+        nextMove = Random.Range(0,5);
 
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        print("HULK HAS TAKEN DAMAGE");
     }
 
 
@@ -40,9 +51,23 @@ public class hulk : MonoBehaviour
 
         if (isHurt) return;
 
-        movPatrol(); 
-        wander();
-        checkObstacle();
+
+        if (!isHurt && !isIdling) 
+        {
+            movement.x = speed * currentDirection;
+            movement.y = rb.linearVelocity.y;
+            rb.linearVelocity = movement;
+            
+            movPatrol(); 
+            wander();
+            checkObstacle();
+        }
+        else if (isIdling || isHurt)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        }
+    
+
        
     }
 
@@ -50,12 +75,22 @@ public class hulk : MonoBehaviour
     {
         turnTimer += Time.deltaTime;
 
-        if (turnTimer >= nextTurnTime)
+        if (turnTimer >= nextTurnTime) 
         {
-            currentDirection *= -1;
-            Flip();
-            turnTimer = 0f;
-            nextTurnTime = Random.Range(2f, 5f);
+            nextMove = Random.Range(0, 5);
+
+            if (nextMove == 1)
+            {
+                StartCoroutine(Idle()); 
+            }
+            else
+            {
+                currentDirection *= -1;
+                Flip();
+                
+                turnTimer = 0f;
+                nextTurnTime = Random.Range(2f, 5f);
+            }
         }
     }
 
@@ -82,14 +117,15 @@ public class hulk : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    // void OnTriggerEnter2D(Collider2D other) {
 
-        if (other.CompareTag("PlayerAttack")) {
-            Hurt();
+    //     if (other.CompareTag("PlayerAttack")) {
             
-        }
+    //         Hurt();
+            
+    //     }
 
-    }
+    // }
 
     private void checkObstacle()
     {
@@ -106,9 +142,17 @@ public class hulk : MonoBehaviour
         bool middleHit = Physics2D.Raycast(middleOrigin, dir, distance, LayerMask.GetMask("Map","Obstacle"));
         bool topHit = Physics2D.Raycast(topOrigin, dir, distance, LayerMask.GetMask("Map","Obstacle"));
 
+        bool bottomHitPlayer = Physics2D.Raycast(bottomOrigin, dir, distance, LayerMask.GetMask("Player"));
+        bool middleHitPlayer = Physics2D.Raycast(middleOrigin, dir, distance, LayerMask.GetMask("Player"));
+
         if ((bottomHit || middleHit) && !topHit)
         {
             handleJump();
+        }
+
+        if ((bottomHitPlayer || middleHitPlayer) && !topHit)
+        {
+            Attack(); 
         }
 
         Debug.DrawRay(bottomOrigin, dir * distance, Color.red);
@@ -162,22 +206,43 @@ public class hulk : MonoBehaviour
 
     public void Hurt()
     {
-        // Prevent re-triggering Hurt if we are already hurting
+
+        
         if (isHurt) return;
 
         isHurt = true;
-        print("HULK GOT HIT");
         
-        // Stop the Hulk's body physically
         rb.linearVelocity = Vector2.zero; 
         
-        // Play the animation (Update won't override it now!)
         anim.Play("Hurt");
 
-        // After a short delay, go back to patrolling
-        // You can adjust '0.5f' to match the length of your Hurt animation
         Invoke("ResetHurt", 0.5f); 
     }
+
+    void Attack()
+    {
+        anim.Play("Attack");
+        print("HULK HITS PLAYER");
+    }
+
+    void AttackDelay()
+    {
+        isAttacking1 = false;
+        
+    }
+
+    IEnumerator Idle()
+    {
+        isIdling = true;
+        anim.Play("idle");
+        
+        yield return new WaitForSeconds(2f);
+        
+        isIdling = false;
+        turnTimer = 0; 
+        nextTurnTime = Random.Range(2f, 5f);
+    }
+
 
     void ResetHurt()
     {

@@ -36,7 +36,6 @@ public class Entity : MonoBehaviour
     protected virtual void Die()
     {
         isDead = true;
-       // Debug.Log(name + " died");
     }
 
 
