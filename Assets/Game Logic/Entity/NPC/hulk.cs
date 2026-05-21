@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 
 public class hulk : Entity
 {
-
     private Rigidbody2D rb;
     private Vector2 movement;
     private int startDirection = 1; 
@@ -19,9 +18,8 @@ public class hulk : Entity
     private Animator anim;
     private bool facingRight = true;
     private bool isHurt = false;
-    private bool isAttacking1;
+    private bool isAttacking1; // Used this to block spamming
     private bool isIdling = false;
-    
 
     void Start()
     {
@@ -32,7 +30,6 @@ public class hulk : Entity
         Flip();
         nextTurnTime = Random.Range(2f, 5f);
         nextMove = Random.Range(0,5);
-
     }
 
     public override void TakeDamage(int damage)
@@ -41,18 +38,12 @@ public class hulk : Entity
         print("HULK HAS TAKEN DAMAGE");
     }
 
-
     void Update()
     {
-        
-        movement.x = speed * currentDirection;
-        movement.y = rb.linearVelocity.y;
-        rb.linearVelocity = movement;
-
         if (isHurt) return;
 
-
-        if (!isHurt && !isIdling) 
+        // FIX: Added !isAttacking1 so he stops walking when attacking
+        if (!isIdling && !isAttacking1) 
         {
             movement.x = speed * currentDirection;
             movement.y = rb.linearVelocity.y;
@@ -62,13 +53,11 @@ public class hulk : Entity
             wander();
             checkObstacle();
         }
-        else if (isIdling || isHurt)
+        // FIX: If idling, hurt, OR attacking, stop horizontal movement
+        else 
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
-    
-
-       
     }
 
     private void wander()
@@ -105,27 +94,13 @@ public class hulk : Entity
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // print("HULK touch floor");
         grounded = true;
-
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        // print("HULK in air");
         grounded = false;
-
     }
-
-    // void OnTriggerEnter2D(Collider2D other) {
-
-    //     if (other.CompareTag("PlayerAttack")) {
-            
-    //         Hurt();
-            
-    //     }
-
-    // }
 
     private void checkObstacle()
     {
@@ -150,9 +125,13 @@ public class hulk : Entity
             handleJump();
         }
 
+        // FIX: Only trigger attack if not already attacking
         if ((bottomHitPlayer || middleHitPlayer) && !topHit)
         {
-            Attack(); 
+            if (!isAttacking1)
+            {
+                Attack(); 
+            }
         }
 
         Debug.DrawRay(bottomOrigin, dir * distance, Color.red);
@@ -162,9 +141,8 @@ public class hulk : Entity
 
     private void movPatrol()
     {
-
-        anim.Play("Walk");
-        
+        // Only play walk if not attacking
+        if (!isAttacking1) anim.Play("Walk");
         
         Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.2f;
         Vector2 middleOrigin = (Vector2)transform.position;
@@ -172,15 +150,12 @@ public class hulk : Entity
 
         if (grounded)
         {
-            
-
             if ((Physics2D.Raycast(bottomOrigin, Vector2.right, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle")) 
             || Physics2D.Raycast(middleOrigin, Vector2.right, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle"))) && currentDirection > 0)
             {
                 Flip();
                 grounded = true;
                 currentDirection = -1; 
-                print("FUUUUCK");
             }
             else if ((Physics2D.Raycast(bottomOrigin, Vector2.left, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle")) 
             || Physics2D.Raycast(middleOrigin, Vector2.left, halfWidth + 0.1f, LayerMask.GetMask("Map","Obstacle"))) && currentDirection < 0)
@@ -188,32 +163,16 @@ public class hulk : Entity
                 Flip();
                 grounded = true;
                 currentDirection = 1;
-                print("SHIIIT");
             }
-
         }
-
-        Debug.DrawRay(bottomOrigin, Vector2.right * (halfWidth + 0.10f), Color.red);
-        Debug.DrawRay(middleOrigin, Vector2.right * (halfWidth + 0.10f), Color.yellow);
-        Debug.DrawRay(topOrigin, Vector2.right * (halfWidth + 0.10f), Color.green);
-
-        Debug.DrawRay(bottomOrigin, Vector2.left * (halfWidth + 0.10f), Color.red);
-        Debug.DrawRay(middleOrigin, Vector2.left * (halfWidth + 0.10f), Color.yellow);
-        Debug.DrawRay(topOrigin, Vector2.left * (halfWidth + 0.10f), Color.green);
-
-            
     }
 
     public void Hurt()
     {
-
-        
         if (isHurt) return;
 
         isHurt = true;
-        
         rb.linearVelocity = Vector2.zero; 
-        
         anim.Play("Hurt");
 
         Invoke("ResetHurt", 0.5f); 
@@ -221,14 +180,18 @@ public class hulk : Entity
 
     void Attack()
     {
+        // FIX: Lock the attack state and start cooldown
+        isAttacking1 = true;
         anim.Play("Attack");
-        print("HULK HITS PLAYER");
+        
+        // Adjust the '1f' below to match the exact length of your attack animation in seconds
+        Invoke("AttackDelay", 1f); 
     }
 
     void AttackDelay()
     {
+        // FIX: Releases the lock so he can move and attack again
         isAttacking1 = false;
-        
     }
 
     IEnumerator Idle()
@@ -243,7 +206,6 @@ public class hulk : Entity
         nextTurnTime = Random.Range(2f, 5f);
     }
 
-
     void ResetHurt()
     {
         isHurt = false;
@@ -256,6 +218,4 @@ public class hulk : Entity
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-
-
 }

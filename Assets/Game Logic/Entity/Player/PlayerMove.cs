@@ -275,7 +275,7 @@ public class cha : Entity
 // if touching the floor
     void OnCollisionEnter2D(Collision2D collision)
     {
-        print("is touching the floor");
+        // print("is touching the floor");
         grounded = true;
         jumpCount = 0;
     }
@@ -283,7 +283,7 @@ public class cha : Entity
 // if in the air
     void OnCollisionExit2D(Collision2D collision)
     {
-        print("is in the air");
+        // print("is in the air");
         grounded = false;
         
     }

@@ -98,7 +98,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.9
-    functionName: AttackDelay()
+    functionName: AttackDelay
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 6f391bfd9a99faf4c86bd00d2367ec3c, type: 3}
     floatParameter: 0
