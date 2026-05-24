@@ -8,6 +8,7 @@ TagManager:
   - MapBarrier
   - Enemies
   - PlayerAttack
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 4013279409
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
