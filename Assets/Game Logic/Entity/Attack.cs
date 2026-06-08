@@ -32,7 +32,7 @@ public class Attack : MonoBehaviour
         if (target != null) 
         {
             Vector2 pushDirection = (other.transform.position - playerRoot.position).normalized;
-            pushDirection = new Vector2(other.transform.position.x, 0).normalized;
+            pushDirection = new Vector2(other.transform.position        .x, 0).normalized;
 
             target.ApplyKnockback(pushDirection, punchForce);
         }
