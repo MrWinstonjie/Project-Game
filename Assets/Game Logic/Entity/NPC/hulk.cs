@@ -197,7 +197,7 @@ public class hulk : Entity
     IEnumerator Idle()
     {
         isIdling = true;
-        anim.Play("idle");
+        anim.Play("Idle");
         
         yield return new WaitForSeconds(2f);
         

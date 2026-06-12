@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class skeletor : Entity
+public class Skeletor : Entity
 {
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -39,7 +39,9 @@ public class skeletor : Entity
 
     void Update()
     {
-        if (isHurt) return;
+        if (isHurt) {
+            return;
+        }
 
         // FIX: Added !isAttacking1 so he stops walking when attacking
         if (!isIdling && !isAttacking1) 
@@ -141,7 +143,9 @@ public class skeletor : Entity
     private void movPatrol()
     {
         // Only play walk if not attacking
-        if (!isAttacking1) anim.Play("Walk");
+        if (!isAttacking1){
+            anim.Play("Walk");  
+        }
         
         Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.2f;
         Vector2 middleOrigin = (Vector2)transform.position;
@@ -196,7 +200,7 @@ public class skeletor : Entity
     IEnumerator Idle()
     {
         isIdling = true;
-        anim.Play("idle");
+        anim.Play("Idle");
         
         yield return new WaitForSeconds(2f);
         
