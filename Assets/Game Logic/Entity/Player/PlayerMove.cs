@@ -29,8 +29,8 @@ public class cha : Entity
     bool isAttacking = false;
     float AttackSpeed = 1f;
     public DialogueLogic dialogueLogic;
-
-
+    public GameObject UltFX;
+    public GameObject HitVfxPrefab;
 
     protected override void Start()
     {
@@ -59,15 +59,13 @@ public class cha : Entity
         }
 
         HandleMove();
-
         HandleJump();
 
         StartCoroutine(HandleDash());
-
         StartCoroutine(HandleRoll());
+        StartCoroutine(HandleAbility());
 
         HandleIdle();
-
         Attack();
 
        
@@ -197,12 +195,61 @@ public class cha : Entity
                 rb.linearVelocity = new Vector2(-20, 0);
                 
             }
+           
+           
 
             yield return new WaitForSeconds(0.2f);
 
             isDashing = false;
 
         }
+
+
+ 
+    }
+
+
+    IEnumerator HandleAbility()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") == false && grounded && !isRolling)
+        {
+            anim.SetBool("Dash", true);
+
+            isDashing = true;
+            if (facingRight)
+            {
+                rb.linearVelocity = new Vector2(60, 0); 
+                
+            }else if (!facingRight)
+            {
+                rb.linearVelocity = new Vector2(-60, 0);
+                
+            }
+           
+            StartCoroutine(SpawnDashTrail());
+
+            yield return new WaitForSeconds(0.2f);
+            isDashing = false;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (HitVfxPrefab == null) yield break; 
+
+            
+            Vector3 point1 = transform.position;
+
+            yield return new WaitForSeconds(0.3f);
+            GameObject spawnedVfx1 = Instantiate(HitVfxPrefab, point1, Quaternion.identity);
+        
+        
+            Destroy(spawnedVfx1, 0.5f);
+            
+        }
+
+
+   
 
 
  
@@ -228,11 +275,15 @@ public class cha : Entity
             {
                 comboStep = 1;
             }
+
+            
                 
 
             anim.Play("Attack" + comboStep);
         }
     }
+
+
 
     void AttackBox1()
     {
@@ -270,9 +321,43 @@ public class cha : Entity
         anim.SetBool("Dash", false);
     }
 
+    IEnumerator SpawnHitEffect(Vector3 pos)
+    {
+        // Notice we use "yield break" instead of "return" inside a Coroutine
+        if (HitVfxPrefab == null) yield break; 
+
+        yield return new WaitForSeconds(0.3f);
+        GameObject spawnedVfx1 = Instantiate(HitVfxPrefab, pos, Quaternion.identity);
+    
+    
+        Destroy(spawnedVfx1, 0.5f);
+  
+    }
+
+    IEnumerator SpawnDashTrail()
+    {
+    if (UltFX == null) yield break;
+        Vector3 point1 = transform.position;
+        yield return new WaitForSeconds(0.1f);
+
+        Vector3 point2 = transform.position;
+        yield return new WaitForSeconds(0.1f);
+
+        Vector3 point3 = transform.position;
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject vfx1 = Instantiate(UltFX, point1, Quaternion.identity);
+        GameObject vfx2 = Instantiate(UltFX, point2, Quaternion.identity);
+        GameObject vfx3 = Instantiate(UltFX, point3, Quaternion.identity);
+
+        Destroy(vfx1, 0.5f);
+        Destroy(vfx2, 0.5f);
+        Destroy(vfx3, 0.5f);
+    }
 
 
-// if touching the floor
+
+    // if touching the floor
     void OnCollisionEnter2D(Collision2D collision)
     {
         // print("is touching the floor");
@@ -280,7 +365,7 @@ public class cha : Entity
         jumpCount = 0;
     }
 
-// if in the air
+    // if in the air
     void OnCollisionExit2D(Collision2D collision)
     {
         // print("is in the air");
