@@ -111,7 +111,7 @@ public class cha : Entity
         // jumping anim
         if(rb.linearVelocity.y > 5){
             anim.SetBool("Jump",true);
-            print("jumping");
+            // print("jumping");
         }
 
     }
@@ -309,7 +309,7 @@ public class cha : Entity
 
     public void EndRoll()
     {
-        print("endroll");
+        // print("endroll");
         anim.SetBool("Roll", false);
         box.size = normalSize;
         box.offset = normalOffset;
@@ -317,7 +317,7 @@ public class cha : Entity
 
     public void EndDash()
     {
-        print("end Dash");
+        // print("end Dash");
         anim.SetBool("Dash", false);
     }
 
@@ -337,22 +337,27 @@ public class cha : Entity
     IEnumerator SpawnDashTrail()
     {
     if (UltFX == null) yield break;
-        Vector3 point1 = transform.position;
+
+        Vector3 offset = new Vector3(0, 1.5f, 0); 
+
+        Vector3 point1 = transform.position + offset;
         yield return new WaitForSeconds(0.1f);
 
-        Vector3 point2 = transform.position;
+        Vector3 point2 = transform.position + offset;
         yield return new WaitForSeconds(0.1f);
 
-        Vector3 point3 = transform.position;
+        Vector3 point3 = transform.position + offset;
         yield return new WaitForSeconds(0.5f);
+
+     
 
         GameObject vfx1 = Instantiate(UltFX, point1, Quaternion.identity);
         GameObject vfx2 = Instantiate(UltFX, point2, Quaternion.identity);
         GameObject vfx3 = Instantiate(UltFX, point3, Quaternion.identity);
 
-        Destroy(vfx1, 0.5f);
-        Destroy(vfx2, 0.5f);
-        Destroy(vfx3, 0.5f);
+        Destroy(vfx1, 2f);
+        Destroy(vfx2, 2f);
+        Destroy(vfx3, 2f);
     }
 
 
@@ -383,7 +388,7 @@ public class cha : Entity
         {
             // Hurt();
         }
-        print("Collided with entity");
+        // print("Collided with entity");
 
 
         

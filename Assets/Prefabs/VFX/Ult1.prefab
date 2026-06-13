@@ -10,19 +10,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 276226713361874873, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 383894204843292662, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: simulationSpeed
-      value: 0.6
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: startDelay.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: CollisionModule.collisionMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2617082572674465085, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -46,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_SortingOrder
@@ -54,15 +82,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_SortingLayerID
-      value: 530286589
+      value: 1860219045
       objectReference: {fileID: 0}
     - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471736902509942591, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471736902509942591, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6417051374983988814, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6438811975416736645, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Name
@@ -70,11 +110,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6438811975416736645, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6438811975416736645, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_TagString
-      value: UI
+      value: PlayerAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694192580541404023, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6864047247321200759, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_LocalScale.x
@@ -124,12 +168,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7451939246863090027, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8995682082783852145, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6438811975416736645, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8151691476395183458}
   m_SourcePrefab: {fileID: 100100000, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+--- !u!1 &4348023889551346674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6438811975416736645, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+  m_PrefabInstance: {fileID: 7281205487744327799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!210 &-8151691476395183458
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4348023889551346674}
+  m_Enabled: 1
+  m_SortingLayerID: 1860219045
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
