@@ -30,7 +30,9 @@ public class cha : Entity
     float AttackSpeed = 1f;
     public DialogueLogic dialogueLogic;
     public GameObject UltFX;
-    public GameObject HitVfxPrefab;
+    public GameObject UltFXInitial;
+    public GameObject FireSlashVfx;
+    public GameObject SlamVfx;
 
     protected override void Start()
     {
@@ -208,7 +210,6 @@ public class cha : Entity
  
     }
 
-
     IEnumerator HandleAbility()
     {
         if (Input.GetKeyDown(KeyCode.Q) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") == false && grounded && !isRolling)
@@ -230,28 +231,23 @@ public class cha : Entity
 
             yield return new WaitForSeconds(0.2f);
             isDashing = false;
-
+            anim.Play("Attack2");
         }
+
+        if (Input.GetKeyDown(KeyCode.G) && grounded)
+        {
+            anim.Play("Attack3");
+            StartCoroutine(SpawnSlamAttack(transform.position));
+        }
+
+
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (HitVfxPrefab == null) yield break; 
-
-            
-            Vector3 point1 = transform.position;
-
-            yield return new WaitForSeconds(0.3f);
-            GameObject spawnedVfx1 = Instantiate(HitVfxPrefab, point1, Quaternion.identity);
-        
-        
-            Destroy(spawnedVfx1, 0.5f);
-            
+            anim.Play("Jump");
+            StartCoroutine(SpawnFireSlash(transform.position));
         }
-
-
-   
-
-
+        
  
     }
 
@@ -261,11 +257,9 @@ public class cha : Entity
         comboStep = 0;
     }
 
-
     void Attack()
     {
        
-
         if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && !dialogueLogic.talking)
         {
             isAttacking = true;
@@ -321,16 +315,36 @@ public class cha : Entity
         anim.SetBool("Dash", false);
     }
 
-    IEnumerator SpawnHitEffect(Vector3 pos)
+    IEnumerator SpawnFireSlash(Vector3 pos)
     {
-        // Notice we use "yield break" instead of "return" inside a Coroutine
-        if (HitVfxPrefab == null) yield break; 
+        anim.Play("Jump");
+        rb.linearVelocity = new Vector2(0, 15); 
+        if (FireSlashVfx == null) yield break; 
 
-        yield return new WaitForSeconds(0.3f);
-        GameObject spawnedVfx1 = Instantiate(HitVfxPrefab, pos, Quaternion.identity);
+        GameObject spawnedVfx1 = Instantiate(FireSlashVfx, pos, Quaternion.identity);
     
-    
-        Destroy(spawnedVfx1, 0.5f);
+        Destroy(spawnedVfx1, 2f);
+  
+    }
+
+    IEnumerator SpawnSlamAttack(Vector3 pos)
+    {
+            
+            if (SlamVfx == null) yield break; 
+            Vector3 point1 = transform.position;
+
+            yield return new WaitForSeconds(0.3f);
+            GameObject spawnedVfx1 = Instantiate(SlamVfx, point1, Quaternion.identity);
+
+            if (transform.localScale.x < 0) 
+            {
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+            else{
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+                    
+            Destroy(spawnedVfx1, 2f);
   
     }
 
@@ -347,14 +361,16 @@ public class cha : Entity
         yield return new WaitForSeconds(0.1f);
 
         Vector3 point3 = transform.position + offset;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
-     
+        GameObject vfx0 = Instantiate(UltFXInitial, point2, Quaternion.identity);
+        yield return new WaitForSeconds(0.6f);
 
         GameObject vfx1 = Instantiate(UltFX, point1, Quaternion.identity);
         GameObject vfx2 = Instantiate(UltFX, point2, Quaternion.identity);
         GameObject vfx3 = Instantiate(UltFX, point3, Quaternion.identity);
 
+        Destroy(vfx0, 2f);
         Destroy(vfx1, 2f);
         Destroy(vfx2, 2f);
         Destroy(vfx3, 2f);
