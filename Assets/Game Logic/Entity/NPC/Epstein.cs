@@ -9,7 +9,6 @@ public class Epstein : Entity
     private AIDestinationSetter pathScript;
     private bool isChasing = false; 
     private Rigidbody2D rb;
-    private String Type = "Ghost";
     private bool facingRight = true;
     private Animator anim;
     private bool isAttacking1;
@@ -36,6 +35,8 @@ public class Epstein : Entity
 
     void Update()
     {
+        CheckDeath();
+        if(IsDead) return;
         
         if (player == null) return;
 
@@ -94,17 +95,25 @@ public class Epstein : Entity
         anim.SetBool("isAttacking1", true);
         anim.Play("Attack1");
  
-        
     }
 
     void AttackDelay()
     {
         isAttacking1 = false;
-        
     }
 
     public void Idle()
     {
         isAttacking1 = false;
     }
+
+    void CheckDeath()
+    {
+        if(IsDead)
+        {
+           Destroy(gameObject, 1.5f); 
+        }
+    }
+
+
 }

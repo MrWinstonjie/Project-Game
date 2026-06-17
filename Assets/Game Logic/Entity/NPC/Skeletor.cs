@@ -185,7 +185,7 @@ public class Skeletor : Entity
     {
         // FIX: Lock the attack state and start cooldown
         isAttacking1 = true;
-        anim.Play("Attack");
+        anim.Play("Attack1");
         
         // Adjust the '1f' below to match the exact length of your attack animation in seconds
         Invoke("AttackDelay", 1f); 

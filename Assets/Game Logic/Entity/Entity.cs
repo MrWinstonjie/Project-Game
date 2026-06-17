@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public int maxHealth = 100;
-    protected int currentHealth = 100;
-    protected bool isDead = false;
-    protected String Type = "none";
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int currentHealth = 100;
+    [SerializeField] private bool isDead = false;
+    [SerializeField] private String type = "none";
 
-        
+    public int MaxHealth => maxHealth;
+    public int CurrentHealth => currentHealth;
+    public bool IsDead => isDead;
+    public String Type => type;
+
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;
@@ -16,14 +21,17 @@ public class Entity : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         currentHealth -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0){
             Die();
+        }
     }
-
 
 
     public virtual void Heal(int amount)
@@ -35,6 +43,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Die()
     {
+        Debug.Log(gameObject.name + " has died.");
         isDead = true;
     }
 

@@ -32,14 +32,16 @@ public class hulk : Entity
         nextMove = Random.Range(0,5);
     }
 
-    public override void TakeDamage(int damage)
-    {
-        base.TakeDamage(damage);
-        print("HULK HAS TAKEN DAMAGE");
-    }
+    // public override void TakeDamage(int damage)
+    // {
+    //     base.TakeDamage(damage);
+    //     print("HULK HAS TAKEN DAMAGE");
+    // }
 
     void Update()
     {
+        CheckDeath();
+        if (IsDead) return;
         if (isHurt) return;
 
         // FIX: Added !isAttacking1 so he stops walking when attacking
@@ -209,6 +211,21 @@ public class hulk : Entity
     void ResetHurt()
     {
         isHurt = false;
+    }
+
+    void CheckDeath()
+    {
+        if(IsDead)
+        {
+            StartCoroutine(Death());
+        }
+    }
+
+    IEnumerator Death()
+    {
+        anim.Play("Death");
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 
     void Flip()

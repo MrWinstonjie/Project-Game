@@ -81,8 +81,7 @@ public class cha : Entity
         if (grounded)
         {
             anim.SetBool("Grounded",true);
-            
-
+            anim.SetBool("Jump",false);
         }
         else
         {

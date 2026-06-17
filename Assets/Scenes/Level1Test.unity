@@ -2517,6 +2517,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  isDead: 0
+  type: none
 --- !u!212 &298821523
 SpriteRenderer:
   serializedVersion: 2
@@ -2854,6 +2857,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  isDead: 0
+  type: none
 --- !u!212 &327847637
 SpriteRenderer:
   serializedVersion: 2
@@ -4102,6 +4108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  isDead: 0
+  type: none
 --- !u!61 &572998949
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14236,7 +14245,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 4
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -61157,10 +61166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65639bb9a8df4b54090ea276eb6c94ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  attackDamage: 25
+  attackDamage: 35
   punchForce: 250
   uppercutForce: 10
-  playerRoot: {fileID: 0}
+  playerRoot: {fileID: 227829906}
 --- !u!1 &1233106899
 GameObject:
   m_ObjectHideFlags: 0
@@ -61455,6 +61464,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  isDead: 0
+  type: none
 --- !u!1 &1250391293
 GameObject:
   m_ObjectHideFlags: 0
@@ -63920,6 +63932,63 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1677006064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1130334673304912243, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_Name
+      value: DeathBringer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -364.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 183.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161394720935139556, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f8ea6626c8473ae48acf955fcf3f0ce6, type: 3}
 --- !u!1 &1688931182
 GameObject:
   m_ObjectHideFlags: 0
@@ -67578,6 +67647,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  isDead: 0
+  type: none
 --- !u!61 &2031673579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -70018,3 +70090,4 @@ SceneRoots:
   - {fileID: 939351740}
   - {fileID: 1341869423}
   - {fileID: 1968802524}
+  - {fileID: 1677006064}
