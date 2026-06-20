@@ -18,14 +18,14 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) return;
+        
 
-        Debug.Log("SWORD JUST TOUCHED: " + other.gameObject.name);
+        Debug.Log(playerRoot.name + "JUST Attacked: " + other.gameObject.name);
         Entity hitEnemy = other.GetComponent<Entity>();
         if (hitEnemy != null)
         {
             hitEnemy.TakeDamage(attackDamage);
-            Debug.Log("SWORD JUST TOFUCKEDUCHED: " + other.gameObject.name);
+            Debug.Log(playerRoot.name + " JUST TOFUCKEDUCHED: " + other.gameObject.name);
             Debug.Log("Enemy Health: " + hitEnemy.CurrentHealth);
         }
 

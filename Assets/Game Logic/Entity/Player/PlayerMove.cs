@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using NUnit.Framework;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
 
 
 public class cha : Entity
@@ -33,13 +35,30 @@ public class cha : Entity
     public GameObject UltFXInitial;
     public GameObject FireSlashVfx;
     public GameObject SlamVfx;
+    public GameObject HealthSystems;
 
     protected override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         box = GetComponent<BoxCollider2D>();
+        HealthSystems = GameObject.Find("HealthSystem");
+
+        setMaxHealth(130);
+        setMaxMana(120);
+
+        HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
+        HealthSystem.Instance.manaText.text = "Mana: " + CurrentMana + "/" + MaxMana;
+
+        HealthSystem.Instance.maxHitPoint = MaxHealth;
+        HealthSystem.Instance.hitPoint = MaxHealth;
+        HealthSystem.Instance.maxManaPoint = MaxMana;
+        HealthSystem.Instance.manaPoint = MaxMana;
         
+      
+       
+
+      
 
         normalSize = box.size;
         normalOffset = box.offset;
@@ -50,6 +69,18 @@ public class cha : Entity
 
     void Update()
     {
+        HealthSystem.Instance.hitPoint = CurrentHealth;
+        HealthSystem.Instance.manaPoint = CurrentMana;
+
+        HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
+        HealthSystem.Instance.manaText.text = "Mana: " + CurrentMana + "/" + MaxMana;
+
+        HealthSystem.Instance.UpdateHealthBar();
+        HealthSystem.Instance.UpdateManaBar();
+
+
+
+
         if (isDashing)
         {
             return;
@@ -70,7 +101,7 @@ public class cha : Entity
         HandleIdle();
         Attack();
 
-       
+
   
     }
 
@@ -211,8 +242,9 @@ public class cha : Entity
 
     IEnumerator HandleAbility()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") == false && grounded && !isRolling)
+        if (Input.GetKeyDown(KeyCode.Q) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") == false && grounded && !isRolling && CurrentMana >= 80)
         {
+            DrainCurrentMana(80);
             anim.SetBool("Dash", true);
 
             isDashing = true;
@@ -233,16 +265,18 @@ public class cha : Entity
             anim.Play("Attack2");
         }
 
-        if (Input.GetKeyDown(KeyCode.G) && grounded)
+        if (Input.GetKeyDown(KeyCode.G) && grounded && CurrentMana >= 40)
         {
+            DrainCurrentMana(40);
             anim.Play("Attack3");
             StartCoroutine(SpawnSlamAttack(transform.position));
         }
 
 
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && CurrentMana >= 15)
         {
+            DrainCurrentMana(15);
             anim.Play("Jump");
             StartCoroutine(SpawnFireSlash(transform.position));
         }
@@ -291,6 +325,7 @@ public class cha : Entity
     public void Hurt()
     {
         anim.Play("Hurt");
+
     }
 
 
@@ -328,6 +363,7 @@ public class cha : Entity
 
     IEnumerator SpawnSlamAttack(Vector3 pos)
     {
+        TakeDamage(50);
             
             if (SlamVfx == null) yield break; 
             Vector3 point1 = transform.position;

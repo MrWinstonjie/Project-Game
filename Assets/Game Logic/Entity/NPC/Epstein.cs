@@ -23,7 +23,7 @@ public class Epstein : Entity
         GameObject p = GameObject.Find("Player");
         if (p != null){
             player = p.transform;
-            print("Player found");
+            // print("Player found");
         }
         else
             Debug.LogError("No Player object found in the scene!");
