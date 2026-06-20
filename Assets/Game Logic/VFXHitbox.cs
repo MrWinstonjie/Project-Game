@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class VFXHitbox : MonoBehaviour
 {
-    public int damage = 5;
+    private int damage = 5;
 
     void OnTriggerEnter2D(Collider2D other)
     {

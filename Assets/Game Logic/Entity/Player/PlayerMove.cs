@@ -44,8 +44,11 @@ public class cha : Entity
         box = GetComponent<BoxCollider2D>();
         HealthSystems = GameObject.Find("HealthSystem");
 
-        setMaxHealth(130);
-        setMaxMana(120);
+        setMaxHealth(150);
+        setMaxMana(150);
+
+        setCurrentHealth(80);
+        setCurrentMana(MaxMana);
 
         HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
         HealthSystem.Instance.manaText.text = "Mana: " + CurrentMana + "/" + MaxMana;
@@ -362,9 +365,7 @@ public class cha : Entity
     }
 
     IEnumerator SpawnSlamAttack(Vector3 pos)
-    {
-        TakeDamage(50);
-            
+    { 
             if (SlamVfx == null) yield break; 
             Vector3 point1 = transform.position;
 

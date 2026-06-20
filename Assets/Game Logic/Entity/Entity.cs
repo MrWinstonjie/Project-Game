@@ -26,6 +26,10 @@ public class Entity : MonoBehaviour
     {
         currentHealth = value;
     }
+    public void AddCurrentHealth(int value)
+    {
+        currentHealth += value;
+    }
 
     public void setMaxMana(int value)
     {
