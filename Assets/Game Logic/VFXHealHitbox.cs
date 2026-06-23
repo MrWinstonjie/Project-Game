@@ -4,6 +4,8 @@ using System.Collections;
 public class VFXHealHitbox : MonoBehaviour
 {
     public int HealRate = 5;
+    
+    private Coroutine activeHealCoroutine;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,7 +13,24 @@ public class VFXHealHitbox : MonoBehaviour
 
         if (hitEntity != null && other.CompareTag("Player"))
         {
-            StartCoroutine(HealOverTime(hitEntity));
+            if (activeHealCoroutine != null)
+            {
+                StopCoroutine(activeHealCoroutine);
+            }
+            
+            activeHealCoroutine = StartCoroutine(HealOverTime(hitEntity));
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (activeHealCoroutine != null)
+            {
+                StopCoroutine(activeHealCoroutine);
+                activeHealCoroutine = null; 
+            }
         }
     }
 
@@ -20,10 +39,9 @@ public class VFXHealHitbox : MonoBehaviour
         while (hitEntity.CurrentHealth < hitEntity.MaxHealth)
         {
             hitEntity.AddCurrentHealth(HealRate);
-            // Debug.Log("Zone is Healing: " + hitEntity.name + " for " + HealRate + " health.");
             yield return new WaitForSeconds(0.7f); 
         }
+        
+        activeHealCoroutine = null;
     }
-
-
 }
