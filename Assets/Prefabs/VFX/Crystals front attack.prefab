@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2365497449509333553}
   - component: {fileID: 6500524052148015777}
   - component: {fileID: -2219219042411713046}
+  - component: {fileID: 1629699291218672572}
+  - component: {fileID: 7805591364186266708}
   m_Layer: 11
   m_Name: Crystals front attack
   m_TagString: PlayerAttack
@@ -28,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1487938294915201487}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -448.96, y: 206.06, z: 0}
+  m_LocalPosition: {x: -341.3, y: 187.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4926,6 +4928,69 @@ SortingGroup:
   m_SortingOrder: 4
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!68 &1629699291218672572
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487938294915201487}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.43392944, y: -0.066085815}
+  - {x: 9.134796, y: -0.099487305}
+  - {x: 10.151886, y: 2.5630035}
+  - {x: 9.113739, y: 2.5951538}
+  - {x: -0.62249756, y: 0.4608307}
+  - {x: -0.44171143, y: -0.033065796}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!114 &7805591364186266708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487938294915201487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf012f27648a78c41b847a93980d2136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXHitbox
+  damage: 75
+  dps: 5
+  damageInterval: 99
+  currentDamageType: 0
 --- !u!1 &1854702145849938402
 GameObject:
   m_ObjectHideFlags: 0
@@ -34443,7 +34508,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 677.2, z: 785.8, w: 0}
+  m_BoundingSphereOverride: {x: NaN, y: 1e-45, z: 0, w: 3e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0

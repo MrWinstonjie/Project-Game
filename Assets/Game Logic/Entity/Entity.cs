@@ -55,6 +55,7 @@ public class Entity : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
+        Debug.Log("Enemy Damaged for " + damage + " damage");
         if (isDead)
         {
             return;

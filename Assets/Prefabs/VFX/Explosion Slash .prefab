@@ -9941,6 +9941,8 @@ GameObject:
   - component: {fileID: 9058929268122581677}
   - component: {fileID: 4437424876854181825}
   - component: {fileID: -8752145130370433490}
+  - component: {fileID: 787747356789632970}
+  - component: {fileID: 2924276366243847292}
   m_Layer: 0
   m_Name: 'Explosion Slash '
   m_TagString: Untagged
@@ -9957,7 +9959,7 @@ Transform:
   m_GameObject: {fileID: 815162863881465290}
   serializedVersion: 2
   m_LocalRotation: {x: 0.9990115, y: 0.008568819, z: -0.043617792, w: -0.00037412607}
-  m_LocalPosition: {x: -449.51, y: 206.45, z: -0.88}
+  m_LocalPosition: {x: -365.64047, y: 185.97171, z: -0.88}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14839,6 +14841,59 @@ SortingGroup:
   m_SortingOrder: 4
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!70 &787747356789632970
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815162863881465290}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.009355851, y: -0.044743482}
+  m_Size: {x: 4.005963, y: 4.0540023}
+  m_Direction: 0
+--- !u!114 &2924276366243847292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815162863881465290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf012f27648a78c41b847a93980d2136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXHitbox
+  damage: 1
+  dps: 25
+  damageInterval: 1
+  currentDamageType: 1
 --- !u!1 &3335494983470472106
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,6 +64,18 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: damageInterval
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
+      propertyPath: currentDamageType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4131129764697037301, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: m_Enabled
       value: 0
