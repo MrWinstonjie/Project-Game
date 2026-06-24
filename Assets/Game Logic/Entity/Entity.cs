@@ -9,7 +9,8 @@ public class Entity : MonoBehaviour
     [SerializeField] private int currentMana = 100;
     [SerializeField] private bool isDead = false;
     [SerializeField] private String type = "none";
-
+    
+    [SerializeField] private Animator anim;
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public int MaxMana => maxMana;
@@ -80,6 +81,7 @@ public class Entity : MonoBehaviour
     {
         Debug.Log(gameObject.name + " has died.");
         isDead = true;
+        Destroy(gameObject);
     }
 
 

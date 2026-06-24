@@ -35,8 +35,8 @@ public class Epstein : Entity
 
     void Update()
     {
-        CheckDeath();
-        if(IsDead) return;
+        // CheckDeath();
+        // if(IsDead) return;
         
         if (player == null) return;
 
@@ -107,13 +107,13 @@ public class Epstein : Entity
         isAttacking1 = false;
     }
 
-    void CheckDeath()
-    {
-        if(IsDead)
-        {
-           Destroy(gameObject, 1.5f); 
-        }
-    }
+    // void CheckDeath()
+    // {
+    //     if(IsDead)
+    //     {
+    //        Destroy(gameObject, 1.5f); 
+    //     }
+    // }
 
 
 }

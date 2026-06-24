@@ -9,6 +9,7 @@ public class DialogueLogic : MonoBehaviour
     public string[] lines; 
     public bool talking;
     private int index;
+    public GameObject UIElement;
 
     void Start()
     {
@@ -43,6 +44,7 @@ public class DialogueLogic : MonoBehaviour
 
     public void StartDialogue() 
     {
+        UIElement.SetActive(false);
         gameObject.SetActive(true);
         index = 0;
         textComponent.text = string.Empty;
@@ -77,6 +79,7 @@ public class DialogueLogic : MonoBehaviour
         else
         {
             talking = false;
+            UIElement.SetActive(true);
             gameObject.SetActive(false); 
         }
     }

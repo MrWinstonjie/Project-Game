@@ -20,6 +20,7 @@ public class Skeletor : Entity
     private bool isHurt = false;
     private bool isAttacking1; // Used this to block spamming
     private bool isIdling = false;
+    private Coroutine activeFreeze;
 
     void Start()
     {
@@ -34,29 +35,40 @@ public class Skeletor : Entity
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        print("HULK HAS TAKEN DAMAGE");
+        print("SKELETOR HAS TAKEN DAMAGE");
+        Hurt();
     }
 
     void Update()
     {
-        if (isHurt) {
-            return;
-        }
-
-        // FIX: Added !isAttacking1 so he stops walking when attacking
-        if (!isIdling && !isAttacking1) 
+        if (!isIdling && !isAttacking1 && !isHurt) 
         {
+            // PRIORITY 1: Check for the player first
+            checkObstacle();
+
+            // If checkObstacle triggered an attack, 'isAttacking1' is now true.
+            // We use 'return;' to instantly stop reading code so he doesn't try to walk or idle!
+            if (isAttacking1) return;
+
+
+            // PRIORITY 2: Roll the dice to see if he should take a break
+            wander();
+
+            // If wander triggered an idle, stop reading!
+            if (isIdling) return;
+
+
+            // PRIORITY 3: If he didn't attack, and didn't idle, THEN he is allowed to walk.
+            movPatrol(); 
+
+            // Apply the actual movement physics AFTER we know he's definitely walking
             movement.x = speed * currentDirection;
             movement.y = rb.linearVelocity.y;
             rb.linearVelocity = movement;
-            
-            movPatrol(); 
-            wander();
-            checkObstacle();
         }
-        // FIX: If idling, hurt, OR attacking, stop horizontal movement
         else 
         {
+            // STOP moving horizontally, but keep vertical velocity for gravity
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
     }
@@ -83,6 +95,8 @@ public class Skeletor : Entity
             }
         }
     }
+
+
 
     private void handleJump()
     {
@@ -126,7 +140,7 @@ public class Skeletor : Entity
             handleJump();
         }
 
-        // FIX: Only trigger attack if not already attacking
+       
         if ((bottomHitPlayer || middleHitPlayer) && !topHit)
         {
             if (!isAttacking1)
@@ -142,7 +156,7 @@ public class Skeletor : Entity
 
     private void movPatrol()
     {
-        // Only play walk if not attacking
+        
         if (!isAttacking1){
             anim.Play("Walk");  
         }
@@ -170,31 +184,45 @@ public class Skeletor : Entity
         }
     }
 
-    public void Hurt()
+    private void Hurt()
     {
-        if (isHurt) return;
-
-        isHurt = true;
         rb.linearVelocity = Vector2.zero; 
+        if (activeFreeze != null)
+        {
+            StopCoroutine(activeFreeze);
+        }
+        anim.speed = 1f; 
         anim.Play("Hurt");
-
-        Invoke("ResetHurt", 0.5f); 
     }
 
-    void Attack()
+    private void Attack()
     {
-        // FIX: Lock the attack state and start cooldown
         isAttacking1 = true;
         anim.Play("Attack1");
-        
-        // Adjust the '1f' below to match the exact length of your attack animation in seconds
-        Invoke("AttackDelay", 1f); 
+
+        Invoke("AttackDelay", 2f); 
     }
 
     void AttackDelay()
     {
-        // FIX: Releases the lock so he can move and attack again
         isAttacking1 = false;
+    }
+
+    public void FreezeAnimation()
+    {
+            
+        if (activeFreeze != null) StopCoroutine(activeFreeze);
+            
+        activeFreeze = StartCoroutine(FreezeRoutine(1f));
+    }
+
+    private IEnumerator FreezeRoutine(float pauseDuration)
+     {
+        anim.speed = 0f;
+        yield return new WaitForSeconds(pauseDuration);
+        anim.speed = 1f;
+            
+        activeFreeze = null; // Clear the reference when done
     }
 
     IEnumerator Idle()

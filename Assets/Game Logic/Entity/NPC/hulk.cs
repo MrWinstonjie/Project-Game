@@ -40,11 +40,11 @@ public class hulk : Entity
 
     void Update()
     {
-        CheckDeath();
+        // CheckDeath();
         if (IsDead) return;
         if (isHurt) return;
 
-        // FIX: Added !isAttacking1 so he stops walking when attacking
+      
         if (!isIdling && !isAttacking1) 
         {
             movement.x = speed * currentDirection;
@@ -55,7 +55,7 @@ public class hulk : Entity
             wander();
             checkObstacle();
         }
-        // FIX: If idling, hurt, OR attacking, stop horizontal movement
+      
         else 
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
@@ -185,14 +185,11 @@ public class hulk : Entity
         isAttacking1 = true;
         anim.Play("Attack");
 
-
-
-        Invoke("AttackDelay", 1f); 
+        Invoke("AttackDelay", 2f); 
     }
 
     void AttackDelay()
     {
-        // FIX: Releases the lock so he can move and attack again
         isAttacking1 = false;
     }
 
@@ -225,7 +222,7 @@ public class hulk : Entity
     {
         anim.Play("Death");
         yield return new WaitForSeconds(1.5f);
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     void Flip()

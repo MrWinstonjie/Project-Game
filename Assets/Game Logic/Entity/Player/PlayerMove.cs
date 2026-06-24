@@ -84,15 +84,11 @@ public class cha : Entity
 
 
 
-        if (isDashing)
+        if (isDashing || isRolling)
         {
             return;
         }
 
-        if (isRolling)
-        {
-            return;
-        }
 
         HandleMove();
         HandleJump();
@@ -114,8 +110,9 @@ public class cha : Entity
         // return to idle animation
         if (grounded)
         {
-            anim.SetBool("Grounded",true);
+            
             anim.SetBool("Jump",false);
+            anim.SetBool("Grounded",true);
         }
         else
         {
@@ -129,19 +126,22 @@ public class cha : Entity
 
     void HandleJump()
     {
+
         // Jump and double jump
         if(rb.linearVelocity.y < 0  && Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
+            anim.SetBool("Grounded", false);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             jumpCount+=2;
 
         }else if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
-            
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             jumpCount++;
             
         }
+        
 
         // jumping anim
         if(rb.linearVelocity.y > 5){
@@ -306,10 +306,11 @@ public class cha : Entity
                 comboStep = 1;
             }
 
-            
-                
-
             anim.Play("Attack" + comboStep);
+        }
+        else
+        {
+            isAttacking = false;
         }
     }
 
