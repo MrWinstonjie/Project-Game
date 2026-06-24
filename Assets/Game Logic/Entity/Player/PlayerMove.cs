@@ -36,6 +36,8 @@ public class cha : Entity
     public GameObject FireSlashVfx;
     public GameObject SlamVfx;
     public GameObject HealthSystems;
+    public Transform SpawnPoint;
+    private bool dead;
 
     protected override void Start()
     {
@@ -44,6 +46,7 @@ public class cha : Entity
         box = GetComponent<BoxCollider2D>();
         HealthSystems = GameObject.Find("HealthSystem");
 
+        dead = false;
         setMaxHealth(150);
         setMaxMana(150);
 
@@ -58,20 +61,35 @@ public class cha : Entity
         HealthSystem.Instance.maxManaPoint = MaxMana;
         HealthSystem.Instance.manaPoint = MaxMana;
         
-      
-       
-
-      
-
         normalSize = box.size;
         normalOffset = box.offset;
+
+    }
+
+    public override void Die()
+    {
+        dead = true;
+        anim.Play("Death");
+        StartCoroutine(Respawn());
+    }
+
+    IEnumerator Respawn()
+    {
         
-
-
+        yield return new WaitForSeconds(2f);
+        transform.position = SpawnPoint.position;
+        setCurrentHealth(MaxHealth);
+        setCurrentMana(MaxMana);
+        HealthSystem.Instance.hitPoint = CurrentHealth;
+        HealthSystem.Instance.manaPoint = CurrentMana;
+        dead = false;
+        anim.Play("Idle");
     }
 
     void Update()
     {
+        CheckStats();
+
         HealthSystem.Instance.hitPoint = CurrentHealth;
         HealthSystem.Instance.manaPoint = CurrentMana;
 
@@ -81,10 +99,11 @@ public class cha : Entity
         HealthSystem.Instance.UpdateHealthBar();
         HealthSystem.Instance.UpdateManaBar();
 
+    
 
 
 
-        if (isDashing || isRolling)
+        if (isDashing || isRolling || dead)
         {
             return;
         }
@@ -102,6 +121,29 @@ public class cha : Entity
 
 
   
+    }
+
+    void CheckStats()
+    {
+        if(CurrentHealth > MaxHealth)
+        {
+            setCurrentHealth(MaxHealth);
+        }
+
+        if(CurrentMana > MaxMana)
+        {
+            setCurrentMana(MaxMana);
+        }
+
+        if(CurrentHealth < 0)
+        {
+            setCurrentHealth(0);
+        }
+
+        if(CurrentMana < 0)
+        {
+            setCurrentMana(0);
+        }
     }
 
 

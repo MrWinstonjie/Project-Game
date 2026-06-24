@@ -77,7 +77,7 @@ public class Entity : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         Debug.Log(gameObject.name + " has died.");
         isDead = true;
