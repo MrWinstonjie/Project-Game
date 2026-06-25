@@ -76,7 +76,7 @@ public class cha : Entity
         StartCoroutine(Respawn());
     }
 
-    public virtual void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         Debug.Log("Enemy Damaged for " + damage + " damage");
         if (IsDead)
@@ -102,7 +102,6 @@ public class cha : Entity
 
     IEnumerator Respawn()
     {
-        
         yield return new WaitForSeconds(2f);
         transform.position = SpawnPoint.position;
         setCurrentHealth(MaxHealth);
@@ -116,6 +115,7 @@ public class cha : Entity
     void Update()
     {
         CheckStats();
+        
 
         HealthSystem.Instance.hitPoint = CurrentHealth;
         HealthSystem.Instance.manaPoint = CurrentMana;
@@ -126,7 +126,11 @@ public class cha : Entity
         HealthSystem.Instance.UpdateHealthBar();
         HealthSystem.Instance.UpdateManaBar();
 
-    
+
+        if (dead)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }    
 
 
 

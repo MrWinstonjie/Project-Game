@@ -21,6 +21,7 @@ public class FrostBoss : Entity
     private bool isAttacking1; // Used this to block spamming
     private bool isIdling = false;
     private Coroutine activeFreeze;
+    public GameObject SlamVfx;
 
     void Start()
     {
@@ -34,59 +35,58 @@ public class FrostBoss : Entity
         Flip();
     }
 
-    public override void TakeDamage(int damage)
+public override void TakeDamage(int damage)
     {
-        base.TakeDamage(damage);
-        print("SKELETOR HAS TAKEN DAMAGE");
-        Hurt();
+        base.TakeDamage(damage); 
+        
+        if (CurrentHealth > 0) 
+        {
+            Hurt();
+        }
     }
 
     public override void Die()
     {
         Debug.Log(gameObject.name + " has died.");
         setDeath(true);
-        anim.Play("death");
+        rb.linearVelocity = Vector2.zero;
+        StopAllCoroutines(); 
         StartCoroutine(DeadBossAnim());
     }
 
     IEnumerator DeadBossAnim()
     {
-        yield return new WaitForSeconds(3f);
+        anim.Play("death");
+        yield return new WaitForSeconds(1.3f);
         Destroy(gameObject);
     }
 
     void Update()
     {
-        
+
+        if (CurrentHealth <= 0) return; 
+
         if (!isIdling && !isAttacking1 && !isHurt) 
         {
-            // PRIORITY 1: Check for the player first
-            checkObstacle();
+        
+            if (!isIdling && !isAttacking1 && !isHurt) 
+            {
+                checkObstacle();
 
-            // If checkObstacle triggered an attack, 'isAttacking1' is now true.
-            // We use 'return;' to instantly stop reading code so he doesn't try to walk or idle!
-            if (isAttacking1) return;
+                if (isAttacking1) return;
+                wander();
+                if (isIdling) return;
+            
+                movPatrol(); 
 
-
-            // PRIORITY 2: Roll the dice to see if he should take a break
-            wander();
-
-            // If wander triggered an idle, stop reading!
-            if (isIdling) return;
-
-
-            // PRIORITY 3: If he didn't attack, and didn't idle, THEN he is allowed to walk.
-            movPatrol(); 
-
-            // Apply the actual movement physics AFTER we know he's definitely walking
-            movement.x = speed * currentDirection;
-            movement.y = rb.linearVelocity.y;
-            rb.linearVelocity = movement;
-        }
-        else 
-        {
-            // STOP moving horizontally, but keep vertical velocity for gravity
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                movement.x = speed * currentDirection;
+                movement.y = rb.linearVelocity.y;
+                rb.linearVelocity = movement;
+            }
+            else 
+            {
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            }
         }
     }
 
@@ -111,6 +111,26 @@ public class FrostBoss : Entity
                 nextTurnTime = Random.Range(2f, 5f);
             }
         }
+    }
+
+    IEnumerator SpawnSlamAttack(Vector3 pos)
+    { 
+            if (SlamVfx == null) yield break; 
+            Vector3 point1 = transform.position;
+
+            yield return new WaitForSeconds(0.3f);
+            GameObject spawnedVfx1 = Instantiate(SlamVfx, point1, Quaternion.identity);
+
+            if (transform.localScale.x < 0) 
+            {
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+            else{
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+                    
+            Destroy(spawnedVfx1, 2f);
+  
     }
 
 
@@ -203,21 +223,35 @@ public class FrostBoss : Entity
 
     private void Hurt()
     {
+        isHurt = true;           
+        isAttacking1 = false;    
+        isIdling = false;      
+
+        CancelInvoke("AttackDelay"); 
         rb.linearVelocity = Vector2.zero; 
+
         if (activeFreeze != null)
         {
             StopCoroutine(activeFreeze);
         }
+        
         anim.speed = 1f; 
         anim.Play("take_hit");
+
+        Invoke("ResetHurt", 0.5f); 
     }
 
-    private void Attack()
+    void ResetHurt()
+    {
+        isHurt = false;
+    }
+
+    public void Attack()
     {
         isAttacking1 = true;
         anim.Play("1_atk");
 
-        Invoke("AttackDelay", 2f); 
+        // Invoke("AttackDelay", 2f); 
     }
 
     void AttackDelay()
@@ -254,10 +288,7 @@ public class FrostBoss : Entity
         nextTurnTime = Random.Range(2f, 5f);
     }
 
-    void ResetHurt()
-    {
-        isHurt = false;
-    }
+
 
     void Flip()
     {
