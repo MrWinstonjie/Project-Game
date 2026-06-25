@@ -38,6 +38,9 @@ public class cha : Entity
     public GameObject HealthSystems;
     public Transform SpawnPoint;
     private bool dead;
+    public int DeathCounter;
+    public int FuryCounter;
+    public bool Invincible;
 
     protected override void Start()
     {
@@ -72,6 +75,30 @@ public class cha : Entity
         anim.Play("Death");
         StartCoroutine(Respawn());
     }
+
+    public virtual void TakeDamage(int damage)
+    {
+        Debug.Log("Enemy Damaged for " + damage + " damage");
+        if (IsDead)
+        {
+            return;
+        }
+
+        if (!Invincible)
+        {
+            setCurrentHealth(CurrentHealth - damage);
+        }
+        else
+        {
+            return;
+        }
+
+        if (CurrentHealth <= 0){
+            Die();
+        }
+    }
+
+
 
     IEnumerator Respawn()
     {
@@ -242,6 +269,7 @@ public class cha : Entity
         {
             anim.SetBool("Roll", true);
             isRolling = true;
+            
 
             box.size = rollSize;
             box.offset = rollOffset;
