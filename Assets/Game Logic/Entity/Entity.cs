@@ -23,6 +23,11 @@ public class Entity : MonoBehaviour
         maxHealth = value;
     }
 
+    public void setDeath(bool Death)
+    {
+        isDead = Death;
+    }
+
     public void setCurrentHealth(int value)
     {
         currentHealth = value;
