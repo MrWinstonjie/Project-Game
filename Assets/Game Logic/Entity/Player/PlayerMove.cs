@@ -42,12 +42,15 @@ public class cha : Entity
     public int FuryCounter;
     public bool Invincible;
 
+
     protected override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         box = GetComponent<BoxCollider2D>();
         HealthSystems = GameObject.Find("HealthSystem");
+
+
 
         dead = false;
         setMaxHealth(150);
@@ -138,7 +141,6 @@ public class cha : Entity
         {
             return;
         }
-
 
         HandleMove();
         HandleJump();
@@ -313,9 +315,9 @@ public class cha : Entity
 
         }
 
-
- 
     }
+
+
 
     IEnumerator HandleAbility()
     {
