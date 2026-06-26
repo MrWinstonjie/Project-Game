@@ -21,7 +21,7 @@ public class FireBoss : Entity
     private bool isAttacking1; // Used this to block spamming
     private bool isIdling = false;
     private Coroutine activeFreeze;
-    public GameObject SlamVfx;
+    public GameObject AbilityVfx;
     public GameObject WarningFx;
     public Transform WarningSpawnPoint;
 
