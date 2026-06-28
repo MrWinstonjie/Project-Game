@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3030029736566298399}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 103.9, y: 1.65, z: 0}
   m_LocalScale: {x: 3.7930126, y: 3.7829194, z: 1}
   m_ConstrainProportionsScale: 0
@@ -223,6 +223,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3490770022723334584}
     m_Modifications:
+    - target: {fileID: 122626290334879041, guid: 1b4d19b2e36edf34ea3dd6f5fd27dc05, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2061659049097631563, guid: 1b4d19b2e36edf34ea3dd6f5fd27dc05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.265
@@ -263,6 +267,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4183260118762712233, guid: 1b4d19b2e36edf34ea3dd6f5fd27dc05, type: 3}
+      propertyPath: playerRoot
+      value: 
+      objectReference: {fileID: 3490770022723334584}
     - target: {fileID: 8758275645003282894, guid: 1b4d19b2e36edf34ea3dd6f5fd27dc05, type: 3}
       propertyPath: m_Name
       value: AttackHitbox
