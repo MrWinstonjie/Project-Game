@@ -24,7 +24,14 @@ public class Attack : MonoBehaviour
         Entity hitEnemy = other.GetComponent<Entity>();
         if (hitEnemy != null)
         {
-            hitEnemy.TakeDamage(attackDamage);
+            int finalDamage = attackDamage;
+            Entity attacker = playerRoot.GetComponent<Entity>();
+            if (attacker != null)
+            {
+                finalDamage = attacker.GetDamageOutput(attackDamage);
+            }
+
+            hitEnemy.TakeDamage(finalDamage);
             Debug.Log(playerRoot.name + " JUST TOFUCKEDUCHED: " + other.gameObject.name);
             Debug.Log("Enemy Health: " + hitEnemy.CurrentHealth);
         }

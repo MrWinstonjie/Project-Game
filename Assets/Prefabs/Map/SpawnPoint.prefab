@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3621047873860463696, guid: fb3b9b0b33d48c64c8c11e01dbe71caa, type: 3}
       propertyPath: m_Name
-      value: SpawnPoint Variant
+      value: SpawnPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8079420252168942571, guid: fb3b9b0b33d48c64c8c11e01dbe71caa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -156,7 +156,7 @@ PrefabInstance:
       addedObject: {fileID: 8376293990999447514}
     - targetCorrespondingSourceObject: {fileID: 3621047873860463696, guid: fb3b9b0b33d48c64c8c11e01dbe71caa, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3798059008600035053}
+      addedObject: {fileID: -1508758321602153320}
   m_SourcePrefab: {fileID: 100100000, guid: fb3b9b0b33d48c64c8c11e01dbe71caa, type: 3}
 --- !u!1 &6591381574903725188 stripped
 GameObject:
@@ -176,7 +176,7 @@ SortingGroup:
   m_SortingOrder: 4
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
---- !u!114 &3798059008600035053
+--- !u!114 &-1508758321602153320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c09b837837970349aca2925ec9014d9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
 --- !u!4 &8422184151075339054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2150568436702850042, guid: fb3b9b0b33d48c64c8c11e01dbe71caa, type: 3}

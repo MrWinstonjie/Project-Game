@@ -5,12 +5,17 @@ public class Potion : MonoBehaviour
     public enum PotionType
     {
         Health,
-        Mana
+        Mana,
+        Defense,
+        DamageIncrease
     }
 
     public PotionType potionType;
     public int healthAmount = 20; 
-    public int manaAmount = 10; 
+    public int manaAmount = 10;
+    public int defenseAmount = 5;
+    public float damageMultiplier = 1.25f;
+    public float effectDuration = 5f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -25,7 +30,13 @@ public class Potion : MonoBehaviour
                         playerEntity.AddCurrentHealth(healthAmount);
                         break;
                     case PotionType.Mana:
-                        playerEntity.setCurrentMana(playerEntity.CurrentMana + manaAmount);
+                        playerEntity.setCurrentMana(Mathf.Min(playerEntity.CurrentMana + manaAmount, playerEntity.MaxMana));
+                        break;
+                    case PotionType.Defense:
+                        playerEntity.ApplyDefenseBoost(defenseAmount, effectDuration);
+                        break;
+                    case PotionType.DamageIncrease:
+                        playerEntity.ApplyDamageBoost(damageMultiplier, effectDuration);
                         break;
                 }
                 Destroy(gameObject);

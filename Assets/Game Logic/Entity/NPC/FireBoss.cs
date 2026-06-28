@@ -24,9 +24,12 @@ public class FireBoss : Entity
     public GameObject AbilityVfx;
     public GameObject WarningFx;
     public Transform WarningSpawnPoint;
+    public Transform AbilitySpawnPoint;
+    [SerializeField] private float abilitySpawnDelay = 0.3f;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         isAttacking1= false;
         currentDirection = startDirection;
         rb = GetComponent<Rigidbody2D>();
@@ -52,18 +55,42 @@ public override void TakeDamage(int damage)
         Debug.Log(gameObject.name + " has died.");
         setDeath(true);
         rb.linearVelocity = Vector2.zero;
+        SpawnCoinDrop();
         StopAllCoroutines(); 
         StartCoroutine(DeadBossAnim());
     }
 
     public IEnumerator WarningEffect()
     {
+        if (WarningFx == null || WarningSpawnPoint == null)
+        {
+            yield break;
+        }
 
         Vector3 point1 = WarningSpawnPoint.position;
-        GameObject spawnedVfx1 = Instantiate(WarningFx, point1, Quaternion.identity);
+        Instantiate(WarningFx, point1, Quaternion.identity);
 
         yield return new WaitForSeconds(1f);
-    
+    }
+
+    IEnumerator SpawnAbilityVfx()
+    {
+        if (AbilityVfx == null) yield break;
+
+        yield return new WaitForSeconds(abilitySpawnDelay);
+        Vector3 spawnPosition = AbilitySpawnPoint != null ? AbilitySpawnPoint.position : transform.position;
+        GameObject spawnedVfx = Instantiate(AbilityVfx, spawnPosition, Quaternion.identity);
+
+        if (transform.localScale.x < 0)
+        {
+            spawnedVfx.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else
+        {
+            spawnedVfx.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+
+        Destroy(spawnedVfx, 2f);
     }
 
     IEnumerator DeadBossAnim()
@@ -240,6 +267,22 @@ public override void TakeDamage(int damage)
     public void Attack()
     {
         isAttacking1 = true;
+
+        bool shouldUseAbility = Random.value <= 0.4f;
+
+        if (shouldUseAbility)
+        {
+            if (WarningFx != null && WarningSpawnPoint != null)
+            {
+                StartCoroutine(WarningEffect());
+            }
+
+            if (AbilityVfx != null)
+            {
+                StartCoroutine(SpawnAbilityVfx());
+            }
+        }
+
         anim.Play("d_cleave");
 
         // Invoke("AttackDelay", 2f); 

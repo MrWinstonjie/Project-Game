@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using NUnit.Framework;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -41,6 +42,36 @@ public class cha : Entity
     public int DeathCounter;
     public int FuryCounter;
     public bool Invincible;
+    [Header("Death Recovery")]
+    public GameObject lastDeathPickupPrefab;
+    private LastDeath activeLastDeathPickup;
+
+    public enum InventoryPotionType
+    {
+        Health,
+        Mana,
+        Rage,
+        Defense
+    }
+
+    [Header("Inventory")]
+    public int healPotionQty;
+    public int manaPotionQty;
+    public int ragePotionQty;
+    public int defensePotionQty;
+    public int coinCount;
+    public int healPotionAmount = 20;
+    public int manaPotionAmount = 10;
+    public int defenseAmount = 5;
+    public float rageDuration = 5f;
+    public float rageMultiplier = 1.25f;
+    public float defenseDuration = 5f;
+    public TextMeshProUGUI HealPotionQty;
+    public TextMeshProUGUI ManaPotionQty;
+    public TextMeshProUGUI RagePotionQty;
+    public TextMeshProUGUI DefensePotionQty;
+    public int Coins;
+    public TextMeshProUGUI CoinQty;
 
 
     protected override void Start()
@@ -70,12 +101,21 @@ public class cha : Entity
         normalSize = box.size;
         normalOffset = box.offset;
 
+        UpdateInventoryUI();
+
     }
 
     public override void Die()
     {
+        if (dead)
+        {
+            return;
+        }
+
         dead = true;
         anim.Play("Death");
+        CreateLastDeathPickup();
+        ClearInventoryOnDeath();
         StartCoroutine(Respawn());
     }
 
@@ -89,7 +129,8 @@ public class cha : Entity
 
         if (!Invincible)
         {
-            setCurrentHealth(CurrentHealth - damage);
+            int finalDamage = ApplyDefense(damage);
+            setCurrentHealth(CurrentHealth - finalDamage);
         }
         else
         {
@@ -102,6 +143,52 @@ public class cha : Entity
     }
 
 
+
+    void CreateLastDeathPickup()
+    {
+        if (activeLastDeathPickup != null)
+        {
+            Destroy(activeLastDeathPickup.gameObject);
+            activeLastDeathPickup = null;
+        }
+
+        GameObject pickupObject = lastDeathPickupPrefab != null
+            ? Instantiate(lastDeathPickupPrefab, transform.position, Quaternion.identity)
+            : new GameObject("LastDeathPickup");
+
+        pickupObject.transform.position = transform.position;
+
+        LastDeath lastDeath = pickupObject.GetComponent<LastDeath>();
+        if (lastDeath == null)
+        {
+            lastDeath = pickupObject.AddComponent<LastDeath>();
+        }
+
+        lastDeath.Configure(this, healPotionQty, manaPotionQty, ragePotionQty, defensePotionQty, coinCount);
+        activeLastDeathPickup = lastDeath;
+
+        if (pickupObject.GetComponent<Collider2D>() == null)
+        {
+            CircleCollider2D collider = pickupObject.AddComponent<CircleCollider2D>();
+            collider.isTrigger = true;
+        }
+
+        if (pickupObject.GetComponent<SpriteRenderer>() == null)
+        {
+            SpriteRenderer renderer = pickupObject.AddComponent<SpriteRenderer>();
+            renderer.color = Color.magenta;
+        }
+    }
+
+    void ClearInventoryOnDeath()
+    {
+        healPotionQty = 0;
+        manaPotionQty = 0;
+        ragePotionQty = 0;
+        defensePotionQty = 0;
+        coinCount = 0;
+        UpdateInventoryUI();
+    }
 
     IEnumerator Respawn()
     {
@@ -117,6 +204,7 @@ public class cha : Entity
 
     void Update()
     {
+        HandlePotionInput();
         CheckStats();
         
 
@@ -154,6 +242,114 @@ public class cha : Entity
 
 
   
+    }
+
+    void HandlePotionInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && healPotionQty > 0)
+        {
+            UsePotion(InventoryPotionType.Health);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && manaPotionQty > 0)
+        {
+            UsePotion(InventoryPotionType.Mana);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && ragePotionQty > 0)
+        {
+            UsePotion(InventoryPotionType.Rage);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && defensePotionQty > 0)
+        {
+            UsePotion(InventoryPotionType.Defense);
+        }
+    }
+
+    public void AddCoins(int amount)
+    {
+        coinCount += amount;
+        UpdateInventoryUI();
+    }
+
+    public bool TrySpendCoins(int amount)
+    {
+        if (coinCount <= 0 || coinCount < amount)
+        {
+            return false;
+        }
+
+        coinCount -= amount;
+        UpdateInventoryUI();
+        return true;
+    }
+
+    public bool TryBuyPotion(InventoryPotionType potionType, int cost = 1)
+    {
+        if (!TrySpendCoins(cost))
+        {
+            return false;
+        }
+
+        AddPotion(potionType);
+        return true;
+    }
+
+    public void AddPotion(InventoryPotionType potionType, int amount = 1)
+    {
+        switch (potionType)
+        {
+            case InventoryPotionType.Health:
+                healPotionQty += amount;
+                break;
+            case InventoryPotionType.Mana:
+                manaPotionQty += amount;
+                break;
+            case InventoryPotionType.Rage:
+                ragePotionQty += amount;
+                break;
+            case InventoryPotionType.Defense:
+                defensePotionQty += amount;
+                break;
+        }
+
+        UpdateInventoryUI();
+    }
+
+    void UsePotion(InventoryPotionType potionType)
+    {
+        switch (potionType)
+        {
+            case InventoryPotionType.Health:
+                if (healPotionQty <= 0) return;
+                healPotionQty--;
+                AddCurrentHealth(healPotionAmount);
+                break;
+            case InventoryPotionType.Mana:
+                if (manaPotionQty <= 0) return;
+                manaPotionQty--;
+                setCurrentMana(Mathf.Min(CurrentMana + manaPotionAmount, MaxMana));
+                break;
+            case InventoryPotionType.Rage:
+                if (ragePotionQty <= 0) return;
+                ragePotionQty--;
+                ApplyDamageBoost(rageMultiplier, rageDuration);
+                break;
+            case InventoryPotionType.Defense:
+                if (defensePotionQty <= 0) return;
+                defensePotionQty--;
+                ApplyDefenseBoost(defenseAmount, defenseDuration);
+                break;
+        }
+
+        UpdateInventoryUI();
+    }
+
+    void UpdateInventoryUI()
+    {
+        if (HealPotionQty != null) HealPotionQty.text = healPotionQty.ToString();
+        if (ManaPotionQty != null) ManaPotionQty.text = manaPotionQty.ToString();
+        if (RagePotionQty != null) RagePotionQty.text = ragePotionQty.ToString();
+        if (DefensePotionQty != null) DefensePotionQty.text = defensePotionQty.ToString();
+        if (CoinQty != null) CoinQty.text = coinCount.ToString();
     }
 
     void CheckStats()

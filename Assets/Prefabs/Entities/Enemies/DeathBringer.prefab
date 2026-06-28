@@ -187,6 +187,12 @@ MonoBehaviour:
   currentMana: 100
   isDead: 0
   type: none
+  defense: 0
+  damageMultiplier: 1
+  anim: {fileID: 0}
+  dropCoinOnDeath: 1
+  coinDropValue: 5
+  coinPrefab: {fileID: 6467882365956250147, guid: ad135bbf5b46614439164ac9016ab06b, type: 3}
 --- !u!95 &5240141782776928220
 Animator:
   serializedVersion: 7

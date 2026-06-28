@@ -112,6 +112,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 100
+  currentHealth: 100
+  maxMana: 100
+  currentMana: 100
+  isDead: 0
+  type: none
+  defense: 0
+  damageMultiplier: 1
+  anim: {fileID: 0}
+  dropCoinOnDeath: 1
+  coinDropValue: 4
+  coinPrefab: {fileID: 6467882365956250147, guid: ad135bbf5b46614439164ac9016ab06b, type: 3}
 --- !u!61 &3702097205792087622
 BoxCollider2D:
   m_ObjectHideFlags: 0

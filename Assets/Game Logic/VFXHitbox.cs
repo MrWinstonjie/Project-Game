@@ -25,21 +25,29 @@ public class VFXHitbox : MonoBehaviour
 
         if (hitEnemy != null && !other.CompareTag("Player"))
         {
+            Entity attacker = transform.root.GetComponent<Entity>();
+            int finalDamage = damage;
+
+            if (attacker != null)
+            {
+                finalDamage = attacker.GetDamageOutput(damage);
+            }
+
             switch (currentDamageType)
             {
                 case DamageType.SingleDamage:
                     if (!alreadyHitEntities.Contains(hitEnemy))
                     {
-                        hitEnemy.TakeDamage(damage);
+                        hitEnemy.TakeDamage(finalDamage);
                         alreadyHitEntities.Add(hitEnemy);
-                        Debug.Log("SINGLE HIT DAMAGED: " + other.name + " for " + damage);
+                        Debug.Log("SINGLE HIT DAMAGED: " + other.name + " for " + finalDamage);
                     }
                     break;
 
                 case DamageType.DamagePerSec:
                     if (!activeDamageRoutines.ContainsKey(hitEnemy))
                     {
-                        Coroutine routine = StartCoroutine(DamageOverTime(hitEnemy, other.name));
+                        Coroutine routine = StartCoroutine(DamageOverTime(hitEnemy, other.name, finalDamage));
                         activeDamageRoutines.Add(hitEnemy, routine);
                     }
                     break;
@@ -66,12 +74,12 @@ public class VFXHitbox : MonoBehaviour
         }
     }
 
-    IEnumerator DamageOverTime(Entity enemy, string enemyName)
+    IEnumerator DamageOverTime(Entity enemy, string enemyName, int damagePerTick)
     {
         while (true) 
         {
-            enemy.TakeDamage(dps); 
-            Debug.Log("DPS HITBOX DAMAGED: " + enemyName + " for " + dps);
+            enemy.TakeDamage(damagePerTick); 
+            Debug.Log("DPS HITBOX DAMAGED: " + enemyName + " for " + damagePerTick);
             
             yield return new WaitForSeconds(damageInterval); 
         }

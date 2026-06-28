@@ -22,9 +22,14 @@ public class FrostBoss : Entity
     private bool isIdling = false;
     private Coroutine activeFreeze;
     public GameObject SlamVfx;
+    public GameObject WarningFx;
+    public Transform WarningSpawnPoint;
+    public Transform AbilitySpawnPoint;
+    [SerializeField] private float slamSpawnDelay = 1f;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         isAttacking1= false;
         currentDirection = startDirection;
         rb = GetComponent<Rigidbody2D>();
@@ -50,8 +55,22 @@ public override void TakeDamage(int damage)
         Debug.Log(gameObject.name + " has died.");
         setDeath(true);
         rb.linearVelocity = Vector2.zero;
+        SpawnCoinDrop();
         StopAllCoroutines(); 
         StartCoroutine(DeadBossAnim());
+    }
+
+    public IEnumerator WarningEffect()
+    {
+        if (WarningFx == null || WarningSpawnPoint == null)
+        {
+            yield break;
+        }
+
+        Vector3 warningPosition = WarningSpawnPoint.position;
+        Instantiate(WarningFx, warningPosition, Quaternion.identity);
+
+        yield return new WaitForSeconds(1f);
     }
 
     IEnumerator DeadBossAnim()
@@ -116,17 +135,18 @@ public override void TakeDamage(int damage)
     IEnumerator SpawnSlamAttack(Vector3 pos)
     { 
             if (SlamVfx == null) yield break; 
-            Vector3 point1 = transform.position;
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(slamSpawnDelay);
+            Vector3 point1 = AbilitySpawnPoint != null ? AbilitySpawnPoint.position : transform.position;
+
             GameObject spawnedVfx1 = Instantiate(SlamVfx, point1, Quaternion.identity);
 
             if (transform.localScale.x < 0) 
             {
-                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
             else{
-                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                spawnedVfx1.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
                     
             Destroy(spawnedVfx1, 2f);
@@ -157,7 +177,7 @@ public override void TakeDamage(int damage)
     private void checkObstacle()
     {
         Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.9f;
-        Vector2 middleOrigin = (Vector2)transform.position;
+        Vector2 middleOrigin = (Vector2)transform.position * 2f;
         Vector2 topOrigin = (Vector2)transform.position + Vector2.up * 1.3f;
         
         if (!grounded) return;
@@ -198,8 +218,8 @@ public override void TakeDamage(int damage)
             anim.Play("walk");  
         }
         
-        Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.2f;
-        Vector2 middleOrigin = (Vector2)transform.position;
+        Vector2 bottomOrigin = (Vector2)transform.position + Vector2.down * 0.9f;
+        Vector2 middleOrigin = (Vector2)transform.position * 2f;
         Vector2 topOrigin = (Vector2)transform.position + Vector2.up * 1.3f;
 
         if (grounded)
@@ -249,6 +269,17 @@ public override void TakeDamage(int damage)
     public void Attack()
     {
         isAttacking1 = true;
+
+        if (WarningFx != null && WarningSpawnPoint != null)
+        {
+            StartCoroutine(WarningEffect());
+        }
+
+        if (Random.value <= 0.4f && SlamVfx != null)
+        {
+            StartCoroutine(SpawnSlamAttack(transform.position));
+        }
+
         anim.Play("1_atk");
 
         // Invoke("AttackDelay", 2f); 
