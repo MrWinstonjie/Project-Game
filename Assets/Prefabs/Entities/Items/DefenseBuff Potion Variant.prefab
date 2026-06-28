@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &839267064742364514
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2715680164381943606, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: potionType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715680164381943606, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: effectDuration
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4293648267300648215, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Name
+      value: DefenseBuff Potion Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5106663110709814122, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9be8165de273d564d98ec6247c348aae, type: 3}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Size.x
+      value: 0.25743943
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Size.y
+      value: 0.3448618
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0004644692
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.0035973266
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683112223371940070, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -343.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 187.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775293566593400021, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6150239738478002047, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a8eb7f0c0af377a4fb3481c5d00ee825, type: 3}
