@@ -601,6 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de41718e39533e40aa3b5cad5b43bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  loadingManager: {fileID: 0}
 --- !u!1 &941972558
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,6 +705,7 @@ GameObject:
   - component: {fileID: 1112838916}
   - component: {fileID: 1112838915}
   - component: {fileID: 1112838914}
+  - component: {fileID: 1112838917}
   m_Layer: 5
   m_Name: btn_credits
   m_TagString: Untagged
@@ -813,6 +815,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112838912}
   m_CullTransparentMesh: 1
+--- !u!210 &1112838917
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112838912}
+  m_Enabled: 1
+  m_SortingLayerID: 1860219045
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1279814901
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +977,7 @@ GameObject:
   - component: {fileID: 1307903029}
   - component: {fileID: 1307903028}
   - component: {fileID: 1307903027}
+  - component: {fileID: 1307903030}
   m_Layer: 5
   m_Name: btn_exit
   m_TagString: Untagged
@@ -1083,6 +1099,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307903025}
   m_CullTransparentMesh: 1
+--- !u!210 &1307903030
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307903025}
+  m_Enabled: 1
+  m_SortingLayerID: 1860219045
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1337472346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,6 +1203,7 @@ GameObject:
   - component: {fileID: 1489322350}
   - component: {fileID: 1489322349}
   - component: {fileID: 1489322348}
+  - component: {fileID: 1489322351}
   m_Layer: 5
   m_Name: btn_start
   m_TagString: Untagged
@@ -1295,6 +1325,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489322346}
   m_CullTransparentMesh: 1
+--- !u!210 &1489322351
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489322346}
+  m_Enabled: 1
+  m_SortingLayerID: 1860219045
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1828969798
 GameObject:
   m_ObjectHideFlags: 0

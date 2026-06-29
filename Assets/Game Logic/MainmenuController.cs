@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class MainmenuController : MonoBehaviour
 {
-
     // private ColorBlock color;
     
     void Start()
@@ -22,14 +21,14 @@ public class MainmenuController : MonoBehaviour
 
     public void onStartClick()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1Test");
     }
 
     public void onHover()
     {
-        // var colors = GetComponent<Button> ().colors;
-        // colors.normalColor = Color.red;
-        // GetComponent<Button> ().colors = colors;
+        var colors = GetComponent<Button> ().colors;
+        colors.normalColor = Color.red;
+        GetComponent<Button> ().colors = colors;
     }
 
     public void onExitHover()

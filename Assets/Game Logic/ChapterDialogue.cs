@@ -8,14 +8,17 @@ public class ChapterDialogue : MonoBehaviour
     public float textSpeed;
     public float lineDelay = 1f;
     public string[] lines;
+    public bool startOnAwake = false;
 
     private int index;
 
     void Start()
     {
         textComponent.text = "";
-        gameObject.SetActive(false);
-        StartDialogue();
+        gameObject.SetActive(startOnAwake);
+
+        if (startOnAwake)
+            StartDialogue();
     }
 
     public void StartDialogue()
