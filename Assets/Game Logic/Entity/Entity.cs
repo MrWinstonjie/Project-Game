@@ -91,6 +91,11 @@ public class Entity : MonoBehaviour
         return Mathf.RoundToInt(baseDamage * damageMultiplier);
     }
 
+    public void SetDamageMultiplier(float multiplier)
+    {
+        damageMultiplier = Mathf.Max(1f, multiplier);
+    }
+
     protected int ApplyDefense(int incomingDamage)
     {
         return Mathf.Max(0, incomingDamage - defense);

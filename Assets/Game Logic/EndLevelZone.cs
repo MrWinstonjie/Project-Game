@@ -2,36 +2,55 @@ using UnityEngine;
 
 public class EndLevelZone : MonoBehaviour
 {
-    public Loading loadingManager;
-    public string nextLevelSceneName = "Level2";
+    public GameObject loadingPanel;
+    public string nextLevelSceneName;
     public float loadingDuration = 4f;
-    public Vector3 teleportPosition;
+    public Transform teleportTarget;
     public bool teleportPlayer = true;
-    public string playerTag = "Player";
+    private static int _levelCounter = 1;
+    public SpawnPoint spawnPoint;
+    public static int LevelCounter 
+    {
+        get { return _levelCounter; }
+        set { _levelCounter = value; }
+    }
 
     private bool triggered = false;
 
+    private void Start()
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (triggered)
-            return;
+        if (triggered) return;
+                triggered = true;
 
-        if (!collision.CompareTag(playerTag))
-            return;
-
-        triggered = true;
-
-        if (loadingManager != null)
+        
+        if (spawnPoint != null)
         {
-            loadingManager.ShowLoadingForSeconds(loadingDuration, nextLevelSceneName);
+            spawnPoint.IncrementLevel();
         }
-        else if (!string.IsNullOrEmpty(nextLevelSceneName))
+    
+
+        if (teleportPlayer && teleportTarget != null)
+        {
+            collision.transform.position = teleportTarget.position;
+        }
+
+        if (loadingPanel != null)
+        {
+            loadingPanel.SetActive(true);
+        }
+
+        if (!string.IsNullOrEmpty(nextLevelSceneName))
         {
             StartCoroutine(WaitAndLoadNextLevel());
         }
-        else if (teleportPlayer)
+        else if (loadingPanel != null)
         {
-            collision.transform.position = teleportPosition;
+            StartCoroutine(HideLoadingPanelAfterDelay());
         }
     }
 
@@ -39,5 +58,14 @@ public class EndLevelZone : MonoBehaviour
     {
         yield return new WaitForSeconds(loadingDuration);
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextLevelSceneName);
+    }
+
+    private System.Collections.IEnumerator HideLoadingPanelAfterDelay()
+    {
+        yield return new WaitForSeconds(loadingDuration);
+        if (loadingPanel != null)
+        {
+            loadingPanel.SetActive(false);
+        }
     }
 }

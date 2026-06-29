@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 
 public class cha : Entity
@@ -42,9 +42,18 @@ public class cha : Entity
     public int DeathCounter;
     public int FuryCounter;
     public bool Invincible;
+    [Header("Counters")]
+    public TextMeshProUGUI DeathCounterText;
+    public TextMeshProUGUI FuryCounterText;
     [Header("Death Recovery")]
     public GameObject lastDeathPickupPrefab;
     private LastDeath activeLastDeathPickup;
+    public AudioSource src;
+    public AudioClip 
+    atkSfx,SlamSfx,FireSlashSfx,UltSfx,
+    rollSfx,PotionSfx,RespawnSfx,JumpSfx,DeathSfx,
+    PissoffSfx,ThanyouSfx,CoinSfx
+    ;
 
     public enum InventoryPotionType
     {
@@ -74,12 +83,13 @@ public class cha : Entity
     public TextMeshProUGUI CoinQty;
 
 
-    protected override void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         box = GetComponent<BoxCollider2D>();
         HealthSystems = GameObject.Find("HealthSystem");
+        // src = GetComponent<AudioSource>();
 
 
 
@@ -102,21 +112,75 @@ public class cha : Entity
         normalOffset = box.offset;
 
         UpdateInventoryUI();
+        InitializeCounterUI();
+        UpdateFuryDamageScaling();
 
+    }
+
+    private void UpdateFuryDamageScaling()
+    {
+        SetDamageMultiplier(1f + (FuryCounter / 100f));
+    }
+
+    private void InitializeCounterUI()
+    {
+        if (DeathCounterText == null)
+        {
+            DeathCounterText = GameObject.Find("DeathCounter")?.GetComponent<TextMeshProUGUI>();
+        }
+
+        if (FuryCounterText == null)
+        {
+            FuryCounterText = GameObject.Find("FuryCounter")?.GetComponent<TextMeshProUGUI>();
+        }
+
+        UpdateCounterUI();
+    }
+
+    private void UpdateCounterUI()
+    {
+        if (DeathCounterText != null)
+        {
+            DeathCounterText.text = DeathCounter.ToString();
+        }
+
+        if (FuryCounterText != null)
+        {
+            FuryCounterText.text = FuryCounter.ToString();
+        }
+
+        UpdateFuryDamageScaling();
     }
 
     public override void Die()
     {
+        src.clip = DeathSfx;
+        src.Play();
         if (dead)
         {
             return;
         }
 
         dead = true;
+        DeathCounter = Mathf.Min(DeathCounter + 1, 6);
+        FuryCounter += 10;
+        UpdateFuryDamageScaling();
+        UpdateCounterUI();
+
+        if (DeathCounter >= 6)
+        {
+            GameOver();
+        }
+
         anim.Play("Death");
         CreateLastDeathPickup();
         ClearInventoryOnDeath();
         StartCoroutine(Respawn());
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public override void TakeDamage(int damage)
@@ -193,6 +257,8 @@ public class cha : Entity
     IEnumerator Respawn()
     {
         yield return new WaitForSeconds(2f);
+        src.clip = RespawnSfx;
+        src.Play();
         transform.position = SpawnPoint.position;
         setCurrentHealth(MaxHealth);
         setCurrentMana(MaxMana);
@@ -266,6 +332,8 @@ public class cha : Entity
 
     public void AddCoins(int amount)
     {
+        src.clip = CoinSfx;
+        src.Play();
         coinCount += amount;
         UpdateInventoryUI();
     }
@@ -274,6 +342,8 @@ public class cha : Entity
     {
         if (coinCount <= 0 || coinCount < amount)
         {
+            src.clip = PissoffSfx;
+            src.Play();
             return false;
         }
 
@@ -288,6 +358,10 @@ public class cha : Entity
         {
             return false;
         }
+
+        src.clip = ThanyouSfx;
+        src.Play();
+
 
         AddPotion(potionType);
         return true;
@@ -316,6 +390,8 @@ public class cha : Entity
 
     void UsePotion(InventoryPotionType potionType)
     {
+        src.clip = PotionSfx;
+        src.Play();
         switch (potionType)
         {
             case InventoryPotionType.Health:
@@ -416,10 +492,14 @@ public class cha : Entity
 
         // jumping anim
         if(rb.linearVelocity.y > 5){
+             src.clip = JumpSfx;
+            src.Play();
+
             anim.SetBool("Jump",true);
             // print("jumping");
         }
 
+       
     }
 
 
@@ -469,6 +549,8 @@ public class cha : Entity
         // Roll
         if (Input.GetKeyDown(KeyCode.LeftShift) && anim.GetCurrentAnimatorStateInfo(0).IsName("Roll") == false && grounded && !isDashing)
         {
+            src.clip = rollSfx;
+            src.Play();
             anim.SetBool("Roll", true);
             isRolling = true;
             
@@ -570,6 +652,8 @@ public class cha : Entity
        
         if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && !dialogueLogic.talking)
         {
+            src.clip = atkSfx;
+            src.Play();
             isAttacking = true;
 
             comboStep++;
@@ -627,6 +711,8 @@ public class cha : Entity
 
     IEnumerator SpawnFireSlash(Vector3 pos)
     {
+        src.clip = FireSlashSfx;
+        src.Play();
         anim.Play("Jump");
         rb.linearVelocity = new Vector2(0, 15); 
         if (FireSlashVfx == null) yield break; 
@@ -639,6 +725,8 @@ public class cha : Entity
 
     IEnumerator SpawnSlamAttack(Vector3 pos)
     { 
+            src.clip = SlamSfx;
+            src.Play();
             if (SlamVfx == null) yield break; 
             Vector3 point1 = transform.position;
 
@@ -659,6 +747,8 @@ public class cha : Entity
 
     IEnumerator SpawnDashTrail()
     {
+        src.clip = UltSfx;
+        src.Play();
     if (UltFX == null) yield break;
 
         Vector3 offset = new Vector3(0, 1.5f, 0); 

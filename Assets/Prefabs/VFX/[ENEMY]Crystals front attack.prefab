@@ -4989,7 +4989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyVFXHitbox
   damage: 50
   dps: 5
-  damageInterval: 1.3
+  damageInterval: 3
   currentDamageType: 0
 --- !u!1 &1854702145849938402
 GameObject:
