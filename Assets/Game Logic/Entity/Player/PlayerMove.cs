@@ -97,7 +97,7 @@ public class cha : Entity
         setMaxHealth(150);
         setMaxMana(150);
 
-        setCurrentHealth(80);
+        setCurrentHealth(150);
         setCurrentMana(MaxMana);
 
         HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
@@ -172,14 +172,50 @@ public class cha : Entity
             GameOver();
         }
 
+        setMaxHealth(Mathf.Max(1, MaxHealth - 15));
+        if (CurrentHealth > MaxHealth)
+        {
+            setCurrentHealth(MaxHealth);
+        }
+
+        if (HealthSystem.Instance != null)
+        {
+            HealthSystem.Instance.maxHitPoint = MaxHealth;
+            HealthSystem.Instance.hitPoint = CurrentHealth;
+            HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
+            HealthSystem.Instance.UpdateHealthBar();
+        }
+
         anim.Play("Death");
         CreateLastDeathPickup();
         ClearInventoryOnDeath();
         StartCoroutine(Respawn());
     }
 
+    void CleanupPersistentLevelObjects()
+    {
+        SpawnPoint[] spawnPoints = FindObjectsOfType<SpawnPoint>();
+        foreach (SpawnPoint spawnPoint in spawnPoints)
+        {
+            if (spawnPoint != null)
+            {
+                Destroy(spawnPoint.gameObject);
+            }
+        }
+
+        Loading[] loadingObjects = FindObjectsOfType<Loading>();
+        foreach (Loading loading in loadingObjects)
+        {
+            if (loading != null)
+            {
+                Destroy(loading.gameObject);
+            }
+        }
+    }
+
     public void GameOver()
     {
+        CleanupPersistentLevelObjects();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -262,8 +298,16 @@ public class cha : Entity
         transform.position = SpawnPoint.position;
         setCurrentHealth(MaxHealth);
         setCurrentMana(MaxMana);
-        HealthSystem.Instance.hitPoint = CurrentHealth;
-        HealthSystem.Instance.manaPoint = CurrentMana;
+        if (HealthSystem.Instance != null)
+        {
+            HealthSystem.Instance.maxHitPoint = MaxHealth;
+            HealthSystem.Instance.hitPoint = CurrentHealth;
+            HealthSystem.Instance.manaPoint = CurrentMana;
+            HealthSystem.Instance.healthText.text = "Health: " + CurrentHealth + "/" + MaxHealth;
+            HealthSystem.Instance.manaText.text = "Mana: " + CurrentMana + "/" + MaxMana;
+            HealthSystem.Instance.UpdateHealthBar();
+            HealthSystem.Instance.UpdateManaBar();
+        }
         dead = false;
         anim.Play("Idle");
     }

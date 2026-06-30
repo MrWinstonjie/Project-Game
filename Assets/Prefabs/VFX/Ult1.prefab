@@ -66,11 +66,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: dps
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: damage
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4116994348601969594, guid: 9f9e5972d4aa84545b6da5d63c048d25, type: 3}
       propertyPath: damageInterval

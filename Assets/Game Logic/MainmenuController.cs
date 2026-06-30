@@ -10,7 +10,28 @@ public class MainmenuController : MonoBehaviour
     
     void Start()
     {
-        
+        CleanupPersistentLevelObjects();
+    }
+
+    private void CleanupPersistentLevelObjects()
+    {
+        SpawnPoint[] spawnPoints = FindObjectsOfType<SpawnPoint>();
+        foreach (SpawnPoint spawnPoint in spawnPoints)
+        {
+            if (spawnPoint != null)
+            {
+                Destroy(spawnPoint.gameObject);
+            }
+        }
+
+        Loading[] loadingObjects = FindObjectsOfType<Loading>();
+        foreach (Loading loading in loadingObjects)
+        {
+            if (loading != null)
+            {
+                Destroy(loading.gameObject);
+            }
+        }
     }
 
    

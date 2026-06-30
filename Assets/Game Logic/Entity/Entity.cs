@@ -30,7 +30,11 @@ public class Entity : MonoBehaviour
 
     public void setMaxHealth(int value)
     {
-        maxHealth = value;
+        maxHealth = Mathf.Max(1, value);
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 
     public void setDeath(bool Death)
